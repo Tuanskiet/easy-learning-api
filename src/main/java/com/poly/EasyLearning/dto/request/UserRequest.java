@@ -17,5 +17,5 @@ public class UserRequest {
     private String fullName;
     private String email;
     private String avatar;
-    private RoleName role;
+    private RoleName role = RoleName.ROLE_USER;
 }

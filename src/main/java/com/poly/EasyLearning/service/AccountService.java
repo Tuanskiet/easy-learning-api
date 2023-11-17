@@ -6,4 +6,5 @@ import com.poly.EasyLearning.entity.AccountApp;
 
 public interface AccountService {
     AccountApp create(UserRequest user);
+    AccountApp login(UserRequest user);
 }

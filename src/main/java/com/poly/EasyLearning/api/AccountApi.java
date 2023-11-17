@@ -17,6 +17,17 @@ import org.springframework.web.bind.annotation.*;
 public class AccountApi {
 
     private final AccountService accountService;
+    @PostMapping("/login")
+    public ResponseEntity<?> doLogin(@RequestBody UserRequest userRequest){
+        AccountApp account = accountService.login(userRequest);
+        return ResponseEntity.status(200).body(
+                new ResponseObject(
+                        "Login success",
+                        200,
+                        account
+                )
+        );
+    }
     @PostMapping("/sign-up")
     public ResponseEntity<?> doSignUp(@RequestBody UserRequest userRequest){
         AccountApp newAccount = accountService.create(userRequest);

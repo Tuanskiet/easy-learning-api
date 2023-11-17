@@ -3,7 +3,7 @@ package com.poly.EasyLearning.enums;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum RoleName {
-    ROLE_USER("user"),ROLE_ADMIN("admin");
+    ROLE_USER("user"),ROLE_ADMIN("admin"),ROLE_PREMIUM("premium");
 
     private String role;
     RoleName(String role){
