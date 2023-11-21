@@ -22,7 +22,7 @@ public class UserInfo implements Serializable {
     @Column(name = "full_name")
     private String fullName;
     private String email;
-    private String avatar;
+    private String avatar  = "";
 
     @JsonIgnore
     @OneToOne
