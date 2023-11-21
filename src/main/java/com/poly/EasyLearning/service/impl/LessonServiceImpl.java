@@ -26,4 +26,9 @@ public class LessonServiceImpl implements LessonService {
         BeanUtils.copyProperties(lessonRequest, newLesson);
         return lessonRepo.save(newLesson);
     }
+
+    @Override
+    public List<Lesson> searchByKeyword(String keyword) {
+        return lessonRepo.findByTitleContainingOrDescriptionContainingAndActiveTrue(keyword, keyword);
+    }
 }

@@ -6,6 +6,8 @@ import com.poly.EasyLearning.service.UserInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserInfoServiceImpl implements UserInfoService {
@@ -14,5 +16,10 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public UserInfo insert(UserInfo userInfo) {
         return userInfoRepo.save(userInfo);
+    }
+
+    @Override
+    public List<UserInfo> searchUserByKeyword(String keyword) {
+        return userInfoRepo.findByFullNameContainingOrEmail(keyword, keyword);
     }
 }

@@ -9,4 +9,6 @@ public interface LessonService {
     List<Lesson> getAllActiveTrue();
 
     Lesson create(LessonRequest lessonRequest);
+
+    List<Lesson> searchByKeyword(String keyword);
 }
