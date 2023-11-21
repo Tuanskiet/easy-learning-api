@@ -4,6 +4,7 @@ import com.poly.EasyLearning.dto.request.LessonRequest;
 import com.poly.EasyLearning.dto.request.UserRequest;
 import com.poly.EasyLearning.dto.response.ResponseObject;
 import com.poly.EasyLearning.entity.Lesson;
+import com.poly.EasyLearning.repository.LessonRepo;
 import com.poly.EasyLearning.service.AccountService;
 import com.poly.EasyLearning.service.LessonService;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,17 @@ public class LessonApi {
                         "Create new lesson.",
                         200,
                         lessonService.create(lessonRequest)
+                )
+        );
+    }
+
+    @GetMapping("/lesson/search/{keyword}")
+    public ResponseEntity<ResponseObject> search(@PathVariable String keyword){
+        return ResponseEntity.status(200).body(
+                new ResponseObject(
+                        "Found lesson",
+                        200,
+                        lessonService.searchByKeyword(keyword)
                 )
         );
     }
