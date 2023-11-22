@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserInfoApi {
     private final UserInfoService userInfoService;
 
-    @GetMapping("/userInfo/search/{keyword}")
-    public ResponseEntity<ResponseObject> search(@PathVariable String keyword){
+    @GetMapping(value = {"/userInfo/search/{keyword}", "/userInfo/search/"})
+    public ResponseEntity<ResponseObject> search(@PathVariable(required = false) String keyword){
         return ResponseEntity.status(200).body(
                 new ResponseObject(
                         "Found user",
