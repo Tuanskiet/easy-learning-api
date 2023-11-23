@@ -56,7 +56,7 @@ public class AccountServiceImpl implements AccountService {
         newAccount.setRoles(roles); // set role for new Account
 
         UserInfo userInfo = UserInfo.builder()
-                .email(userRequest.getUsername())
+                .email(userRequest.getEmail())
                 .fullName(userRequest.getFullName())
                 .avatar(userRequest.getAvatar())
                 .account(newAccount)
