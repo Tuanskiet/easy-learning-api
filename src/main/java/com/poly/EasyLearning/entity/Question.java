@@ -1,5 +1,6 @@
 package com.poly.EasyLearning.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,6 +24,8 @@ public class Question {
     private String  answerC;
     private String  correctAnswer;
 
+
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "lesson_id", referencedColumnName = "id")
     private Lesson lesson;

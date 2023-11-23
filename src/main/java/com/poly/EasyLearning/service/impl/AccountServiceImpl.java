@@ -6,15 +6,17 @@ import com.poly.EasyLearning.entity.RoleApp;
 import com.poly.EasyLearning.entity.UserInfo;
 import com.poly.EasyLearning.enums.RoleName;
 import com.poly.EasyLearning.exception.AccountException;
-import com.poly.EasyLearning.exception.AuthenticationFailException;
 import com.poly.EasyLearning.service.RoleService;
-import com.poly.EasyLearning.service.UserInfoService;
 import com.poly.EasyLearning.utils.MessageUtils;
 import com.poly.EasyLearning.repository.AccountRepository;
 import com.poly.EasyLearning.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -22,9 +24,21 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<AccountApp> user = accountRepository.findByUsername(username);
+        if (user.isPresent()){
+            return user.get();
+        }else {
+            throw new UsernameNotFoundException(MessageUtils.Account.NOT_FOUND.getValue());
+        }
+    }
 
     /**
      * Create new Account and UserInfo for this Account.
@@ -41,7 +55,7 @@ public class AccountServiceImpl implements AccountService {
         }
         AccountApp newAccount = new AccountApp(
                 userRequest.getUsername(),
-                userRequest.getPassword()
+                passwordEncoder.encode(userRequest.getPassword())
         );
         /* Check if the role exists in the database, add a new ROLE_USER if it doesn't exist.*/
         Set<RoleApp> roles = new HashSet<>();
@@ -56,7 +70,7 @@ public class AccountServiceImpl implements AccountService {
         newAccount.setRoles(roles); // set role for new Account
 
         UserInfo userInfo = UserInfo.builder()
-                .email(userRequest.getUsername())
+                .email(userRequest.getEmail())
                 .fullName(userRequest.getFullName())
                 .avatar(userRequest.getAvatar())
                 .account(newAccount)
@@ -65,23 +79,5 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.save(newAccount);
         log.info("Created new user with username : {}", userRequest.getUsername());
         return newAccount;
-    }
-
-    @Override
-    public AccountApp login(UserRequest user) {
-        Optional<AccountApp> account = accountRepository.findByUsername(user.getUsername());
-        if(account.isPresent()){
-            if(account.get().getUsername().equals(user.getUsername()) && account.get().getPassword().equals(user.getPassword())){
-                log.info(account.get().getUsername() + " " + account.get().getPassword());
-                log.info("Login success with username : {}", user.getUsername());
-                return account.get();
-            }
-            log.warn(MessageUtils.Account.WRONG_PASSWORD.getValue() + "|| username : " + user.getUsername());
-            throw new AuthenticationFailException(MessageUtils.Account.WRONG_PASSWORD.getValue());
-        }
-        else {
-            log.warn(MessageUtils.Account.WRONG_USERNAME.getValue() + "|| username : " + user.getUsername());
-            throw new AuthenticationFailException(MessageUtils.Account.WRONG_USERNAME.getValue());
-        }
     }
 }

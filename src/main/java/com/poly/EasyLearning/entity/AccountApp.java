@@ -1,12 +1,14 @@
 package com.poly.EasyLearning.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
-
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -15,18 +17,21 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "[account_app]")
-public class AccountApp implements Serializable {
+public class AccountApp implements Serializable, UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String  username;
     private String  password;
-    private Boolean active = true;
+    private  boolean locked = false;
+    private  boolean enable = true;
 
+    @JsonProperty("userInfo")
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     private UserInfo userApp;
 
-    @ManyToMany
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "account_role",
             joinColumns = @JoinColumn(name = "account_id"),
@@ -37,5 +42,35 @@ public class AccountApp implements Serializable {
     public AccountApp(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    @JsonIgnore
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorityList = new ArrayList<>();
+        for (RoleApp role: this.roles) {
+            authorityList.add(new SimpleGrantedAuthority(role.getName().getValue()));
+        }
+        return authorityList;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return !locked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enable;
     }
 }
