@@ -1,5 +1,6 @@
 package com.poly.EasyLearning.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.poly.EasyLearning.enums.RoleName;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

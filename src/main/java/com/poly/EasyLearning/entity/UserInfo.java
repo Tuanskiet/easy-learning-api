@@ -15,6 +15,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "[user_info]")
 public class UserInfo implements Serializable {
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
