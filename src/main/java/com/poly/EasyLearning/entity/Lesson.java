@@ -17,7 +17,6 @@ public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private Boolean active = false;
 
     @Column(length = 1024)
