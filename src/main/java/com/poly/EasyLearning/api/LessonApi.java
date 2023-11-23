@@ -1,7 +1,6 @@
 package com.poly.EasyLearning.api;
 
 import com.poly.EasyLearning.dto.request.LessonRequest;
-import com.poly.EasyLearning.dto.request.UserRequest;
 import com.poly.EasyLearning.dto.response.ResponseObject;
 import com.poly.EasyLearning.entity.Lesson;
 import com.poly.EasyLearning.repository.LessonRepo;
@@ -53,5 +52,4 @@ public class LessonApi {
     }
 
 }
-
 
