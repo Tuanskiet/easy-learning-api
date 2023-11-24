@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>re : </p>
+<h2 th:if="${user != null}" th:text="${user}"></h2>
+<form th:action="@{/api/v1/logout}" method="post">
+    <button>Logout</button>
+</form>
+
+<form th:action="@{/api/v1/lesson/all}" method="get">
+    <button>get</button>
+</form>
+</body>
+</html>

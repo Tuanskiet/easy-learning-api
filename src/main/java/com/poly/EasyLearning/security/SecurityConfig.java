@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -40,6 +41,9 @@ public class SecurityConfig{
 
     @Autowired
     private AuthenticationFailureHandler authenticationFailureHandler;
+
+    @Autowired
+    private OAuth2UserService oauthUserService;
     private static String[] publicUrls = {"", ""};
 
     @Bean
@@ -61,15 +65,22 @@ public class SecurityConfig{
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeRequests(auth ->
-                        auth.requestMatchers("/api/v1/login", "/api/v1/sign-up").permitAll())
+                        auth.requestMatchers("/api/v1/login", "/api/v1/sign-up", "/oauth2/**").permitAll())
                 .authorizeRequests(auth->
                         auth.requestMatchers("/api/v1/admin/**").hasAuthority("admin"))
                 .authorizeRequests(auth -> auth.anyRequest().authenticated())
-                .formLogin(form ->
-                        form.loginProcessingUrl("/api/v1/login")
+                .oauth2Login(oauth -> oauth
+//                        .defaultSuccessUrl("/result")
+                        .userInfoEndpoint(endpoint -> endpoint.userService(oauthUserService))
+                        .successHandler(authenticationSuccessHandler)
+                )
+                .formLogin(form -> form
+                                .loginPage("/login")
+                                .loginProcessingUrl("/api/v1/login")
                                 .successHandler(authenticationSuccessHandler)
                                 .failureHandler(authenticationFailureHandler)
-                ).logout(log -> log.logoutUrl("/api/v1/logout").permitAll())
+                )
+                .logout(log -> log.logoutUrl("/api/v1/logout").permitAll())
                 .httpBasic(Customizer.withDefaults())
         ;
         return http.build();

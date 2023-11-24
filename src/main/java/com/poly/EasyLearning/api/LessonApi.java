@@ -38,8 +38,8 @@ public class LessonApi {
     }
 
 
-    @GetMapping("/lesson/search/{keyword}")
-    public ResponseEntity<ResponseObject> search(@PathVariable String keyword){
+    @GetMapping("/lesson/search")
+    public ResponseEntity<ResponseObject> search(@RequestParam(name = "keyword") String keyword){
         return ResponseEntity.status(200).body(
                 new ResponseObject(
                         "Found lesson",
