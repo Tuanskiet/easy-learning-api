@@ -31,6 +31,14 @@ public class AccountApp implements Serializable, UserDetails {
     private UserInfo userApp;
 
     @JsonIgnore
+    @OneToMany(mappedBy = "account")
+    private List<Quiz> quizzes = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "account")
+    private List<Room> rooms = new ArrayList<>();
+
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "account_role",
