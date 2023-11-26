@@ -17,7 +17,6 @@ public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private Boolean active = false;
 
     @Column(length = 1024)
@@ -31,4 +30,6 @@ public class Lesson {
 
     @OneToMany(mappedBy = "lesson")
     private List<Question> questions = new ArrayList<>();
+
+    // Should add account id attribute
 }
