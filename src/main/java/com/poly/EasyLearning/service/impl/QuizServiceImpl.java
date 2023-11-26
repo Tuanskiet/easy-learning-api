@@ -1,17 +1,15 @@
 package com.poly.EasyLearning.service.impl;
 
-import com.poly.EasyLearning.dto.request.LessonRequest;
+
 import com.poly.EasyLearning.dto.request.QuizRequest;
-import com.poly.EasyLearning.entity.Lesson;
 import com.poly.EasyLearning.entity.Quiz;
-import com.poly.EasyLearning.repository.LessonRepo;
 import com.poly.EasyLearning.repository.QuizRepository;
-import com.poly.EasyLearning.service.LessonService;
 import com.poly.EasyLearning.service.QuizService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 

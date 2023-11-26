@@ -1,6 +1,7 @@
 package com.poly.EasyLearning.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,13 +19,16 @@ public class Room implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private Boolean active = true;
+
     @ManyToOne
     @JoinColumn(name = "quiz_id", referencedColumnName = "id")
     private Quiz quiz;
 
+    @JsonProperty("account")
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private AccountApp accountApp;
+    private AccountApp account;
 
     @OneToOne
     @JoinColumn(name = "room_id")

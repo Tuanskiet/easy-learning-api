@@ -28,4 +28,8 @@ public class Quiz implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "quiz")
     private List<QuizItem> quizItems = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private AccountApp account;
 }
