@@ -30,4 +30,6 @@ public class Lesson {
 
     @OneToMany(mappedBy = "lesson")
     private List<Question> questions = new ArrayList<>();
+
+    // Should add account id attribute
 }

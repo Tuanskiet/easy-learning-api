@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -11,7 +15,7 @@ import lombok.*;
 @Builder
 @Entity
 @Table(name = "question")
-public class Question {
+public class Question implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -24,9 +28,12 @@ public class Question {
     private String  answerC;
     private String  correctAnswer;
 
-
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "lesson_id", referencedColumnName = "id")
     private Lesson lesson;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "question")
+    private List<QuizItem> quizItems = new ArrayList<>();
 }

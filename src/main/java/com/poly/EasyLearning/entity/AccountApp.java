@@ -2,6 +2,7 @@ package com.poly.EasyLearning.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.poly.EasyLearning.enums.Provider;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,13 +23,26 @@ public class AccountApp implements Serializable, UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String  username;
+
+    @JsonIgnore
     private String  password;
-    private  boolean locked = false;
-    private  boolean enable = true;
+
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
+    private boolean locked = false;
+    private boolean enable = true;
 
     @JsonProperty("userInfo")
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     private UserInfo userApp;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "account")
+    private List<Quiz> quizzes = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "account")
+    private List<Room> rooms = new ArrayList<>();
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
@@ -39,9 +53,10 @@ public class AccountApp implements Serializable, UserDetails {
     )
     private Set<RoleApp> roles = new HashSet<>();
 
-    public AccountApp(String username, String password) {
+    public AccountApp(String username, String password, Provider provider) {
         this.username = username;
         this.password = password;
+        this.provider = provider;
     }
 
     @JsonIgnore
