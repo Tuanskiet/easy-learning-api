@@ -40,6 +40,10 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
+    public Optional<AccountApp> findByUsername(String username){
+        return accountRepository.findByUsername(username);
+    }
+
     /**
      * Create new Account and UserInfo for this Account.
      * @param userRequest contains data fields to create a new Account.
@@ -55,7 +59,8 @@ public class AccountServiceImpl implements AccountService {
         }
         AccountApp newAccount = new AccountApp(
                 userRequest.getUsername(),
-                passwordEncoder.encode(userRequest.getPassword())
+                passwordEncoder.encode(userRequest.getPassword()),
+                userRequest.getProvider()
         );
         /* Check if the role exists in the database, add a new ROLE_USER if it doesn't exist.*/
         Set<RoleApp> roles = new HashSet<>();
