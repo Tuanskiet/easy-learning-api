@@ -31,4 +31,9 @@ public class LessonServiceImpl implements LessonService {
     public List<Lesson> searchByKeyword(String keyword) {
         return lessonRepo.findByTitleContainingOrDescriptionContainingAndActiveTrue(keyword, keyword);
     }
+
+    @Override
+    public Lesson searchById(int id) {
+        return lessonRepo.findById(id).orElseThrow();
+    }
 }

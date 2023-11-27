@@ -11,4 +11,6 @@ public interface LessonService {
     Lesson create(LessonRequest lessonRequest);
 
     List<Lesson> searchByKeyword(String keyword);
+
+    Lesson searchById(int id);
 }

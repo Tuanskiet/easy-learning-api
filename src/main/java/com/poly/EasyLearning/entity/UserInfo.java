@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,4 +31,7 @@ public class UserInfo implements Serializable {
     @OneToOne
     @JoinColumn(name = "account_id")
     private AccountApp account;
+
+    @OneToMany(mappedBy = "userInfo", fetch = FetchType.EAGER)
+    private List<Lesson> lessons = new ArrayList<>();
 }
