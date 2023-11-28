@@ -46,8 +46,6 @@ public class QuizServiceImpl implements QuizService {
         return createdQuiz;
     }
 
-
-
     @Override
     public List<Quiz> searchByKeyword(String keyword) {
         return quizRepository.findByTitleContainingAndActiveTrue(keyword);

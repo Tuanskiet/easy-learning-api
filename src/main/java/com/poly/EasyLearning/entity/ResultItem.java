@@ -18,6 +18,8 @@ public class ResultItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String userAns;
+
     @ManyToOne
     @JoinColumn(name = "result_id", referencedColumnName = "id")
     private Result result;

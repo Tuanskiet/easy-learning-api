@@ -16,6 +16,7 @@ import java.util.List;
 public class ResultServiceImpl implements ResultService {
 
     private final ResultRepository resultRepository;
+    private final RoomService roomService;
 
     @Override
     public List<Result> getAllActiveTrue() {
@@ -25,7 +26,12 @@ public class ResultServiceImpl implements ResultService {
     @Override
     public Result create(ResultRequest resultRequest) {
         Result result = new Result();
-        BeanUtils.copyProperties(resultRequest, result);
+        result.setRoom(roomService.findById(resultRequest.getRoomId()));
         return resultRepository.save(result);
+    }
+
+    @Override
+    public Result findById(Integer id) {
+        return resultRepository.findById(id).orElse(null);
     }
 }

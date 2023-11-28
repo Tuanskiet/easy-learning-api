@@ -1,6 +1,7 @@
 package com.poly.EasyLearning.api;
 
 import com.poly.EasyLearning.dto.request.QuizRequest;
+import com.poly.EasyLearning.dto.request.RoomRequest;
 import com.poly.EasyLearning.dto.response.ResponseObject;
 import com.poly.EasyLearning.service.QuizService;
 import com.poly.EasyLearning.service.RoomService;
@@ -18,16 +19,16 @@ public class RoomApi {
 
 
 
-    /*@GetMapping("/room/all")
-    public ResponseEntity<ResponseObject> getAllRoom(){
-        return ResponseEntity.status(200).body(
-                new ResponseObject(
-                        "Get all room.",
-                        200,
-                        roomService.getAllActiveTrue()
-                )
-        );
-    }
+//    @GetMapping("/room/all")
+//    public ResponseEntity<ResponseObject> getAllRoom(){
+//        return ResponseEntity.status(200).body(
+//                new ResponseObject(
+//                        "Get all room.",
+//                        200,
+//                        roomService.getAllActiveTrue()
+//                )
+//        );
+//    }
 
     @PostMapping("/room/create")
     public ResponseEntity<ResponseObject> doCreateRoom(@RequestBody RoomRequest roomRequest){
@@ -49,7 +50,7 @@ public class RoomApi {
                         roomService.findById(id)
                 )
         );
-    }*/
+    }
 
 }
 

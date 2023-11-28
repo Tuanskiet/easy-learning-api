@@ -15,4 +15,9 @@ public class QuizItemServiceImpl implements QuizItemService {
     public QuizItem create(QuizItem quizItem) {
         return quizItemRepository.save(quizItem);
     }
+
+    @Override
+    public QuizItem findById(Integer id) {
+        return quizItemRepository.findById(id).orElse(null);
+    }
 }

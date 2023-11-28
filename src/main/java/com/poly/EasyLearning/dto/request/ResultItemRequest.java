@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResultRequest {
-    Integer roomId;
-
+public class ResultItemRequest {
+    private String userAns;
+    private Integer questionItemId;
+    private Integer resultId;
 }

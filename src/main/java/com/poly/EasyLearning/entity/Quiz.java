@@ -26,7 +26,7 @@ public class Quiz implements Serializable {
     private Boolean active = true;
 
     @Column(length = 1024)
-    private String  title;
+    private String title;
 
     @JsonIgnore
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
@@ -40,3 +40,4 @@ public class Quiz implements Serializable {
     @JoinColumn(name = "lessonId", referencedColumnName = "id")
     private Lesson lesson;
 
+}
