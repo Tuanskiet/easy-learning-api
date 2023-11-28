@@ -42,4 +42,15 @@ public class AccountApi {
                 )
         );
     }
+//    check account exists
+    @GetMapping("/check-account-exists")
+    public ResponseEntity<?> checkAccountExists(@RequestParam String username){
+        return ResponseEntity.status(200).body(
+                new ResponseObject(
+                        "Check account exists",
+                        200,
+                        accountService.findByUsername(username).isPresent()
+                )
+        );
+    }
 }
