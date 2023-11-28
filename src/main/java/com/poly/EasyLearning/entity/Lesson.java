@@ -23,7 +23,7 @@ public class Lesson implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Boolean active = false;
+    private Boolean active = true;
 
     @Column(length = 1024)
     private String  title;
@@ -34,7 +34,7 @@ public class Lesson implements Serializable {
     @Column(length = 1024)
     private String  image;
 
-    @OneToMany(mappedBy = "lesson")
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
     private List<Question> questions = new ArrayList<>();
 
     @OneToMany(mappedBy = "lesson")
@@ -42,9 +42,9 @@ public class Lesson implements Serializable {
 
 
     @JsonIgnore
+    @JsonProperty("userInfo")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="userInfoId", referencedColumnName = "id")
     private UserInfo userInfo;
 
-    // Should add account id attribute
 }

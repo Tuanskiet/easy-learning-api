@@ -17,4 +17,14 @@ public class QuestionServiceImpl implements QuestionService {
     public List<Question> getAllByLesson_Id(Integer id) {
         return questionRepository.findAllByLesson_Id(id);
     }
+
+    @Override
+    public List<Question> getAllActiveTrue() {
+        return questionRepository.findAll();
+    }
+
+    @Override
+    public Question findById(Integer id) {
+        return questionRepository.findById(id).orElse(null);
+    }
 }

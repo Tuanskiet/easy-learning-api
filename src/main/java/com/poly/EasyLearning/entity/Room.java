@@ -28,7 +28,7 @@ public class Room implements Serializable {
     @JsonProperty("account")
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private AccountApp account;
+    private UserInfo userInfo;
 
     @OneToOne
     @JoinColumn(name = "room_id")
