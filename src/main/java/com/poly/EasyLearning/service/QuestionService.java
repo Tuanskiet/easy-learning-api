@@ -7,4 +7,7 @@ import java.util.List;
 public interface QuestionService {
     List<Question> getAllByLesson_Id(Integer id);
 
+    List<Question> getAllActiveTrue();
+
+    Question findById(Integer id);
 }

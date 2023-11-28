@@ -21,7 +21,7 @@ public class Question implements Serializable {
     private Integer id;
 
     @Column(length = 1024)
-    private String  title;
+    private String  question;
 
     private String  answerA;
     private String  answerB;

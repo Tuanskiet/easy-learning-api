@@ -4,11 +4,13 @@ import com.poly.EasyLearning.dto.request.QuizRequest;
 import com.poly.EasyLearning.dto.response.ResponseObject;
 import com.poly.EasyLearning.service.QuizService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/api/v1")
 public class QuizApi {
     private final QuizService quizService;
@@ -25,7 +27,7 @@ public class QuizApi {
     }
 
     @PostMapping("/quiz/create")
-    public ResponseEntity<ResponseObject> doCreateLesson(@RequestBody QuizRequest quizRequest){
+    public ResponseEntity<ResponseObject> doCreateQuiz(@RequestBody QuizRequest quizRequest){
         return ResponseEntity.status(201).body(
                 new ResponseObject(
                         "Create new quiz.",
@@ -35,8 +37,8 @@ public class QuizApi {
         );
     }
 
-    @GetMapping(value = {"/quiz/search/{keyword}", "/quiz/search/"})
-    public ResponseEntity<ResponseObject> search(@PathVariable(required = false) String keyword){
+    @GetMapping(value = {"/quiz/search"})
+    public ResponseEntity<ResponseObject> search(@RequestParam(required = false) String keyword){
         return ResponseEntity.status(200).body(
                 new ResponseObject(
                         "Found quiz",

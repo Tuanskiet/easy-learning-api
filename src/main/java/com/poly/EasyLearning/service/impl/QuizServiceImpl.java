@@ -2,8 +2,14 @@ package com.poly.EasyLearning.service.impl;
 
 
 import com.poly.EasyLearning.dto.request.QuizRequest;
+import com.poly.EasyLearning.entity.Lesson;
+import com.poly.EasyLearning.entity.Question;
 import com.poly.EasyLearning.entity.Quiz;
+import com.poly.EasyLearning.entity.QuizItem;
+import com.poly.EasyLearning.repository.LessonRepo;
 import com.poly.EasyLearning.repository.QuizRepository;
+import com.poly.EasyLearning.service.QuestionService;
+import com.poly.EasyLearning.service.QuizItemService;
 import com.poly.EasyLearning.service.QuizService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -17,6 +23,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuizServiceImpl implements QuizService {
     private final QuizRepository quizRepository;
+    private final LessonRepo lessonRepo;
+    private final QuestionService questionService;
+    private final QuizItemService quizItemService;
     @Override
     public List<Quiz> getAllActiveTrue() {
         return quizRepository.findByActiveTrue();
@@ -26,7 +35,15 @@ public class QuizServiceImpl implements QuizService {
     public Quiz create(QuizRequest quizRequest) {
         Quiz newQuiz = new Quiz();
         BeanUtils.copyProperties(quizRequest, newQuiz);
-        return quizRepository.save(newQuiz);
+        Quiz createdQuiz = quizRepository.save(newQuiz);
+        quizRequest.getQuestionIdList().forEach((item) -> {
+            Question question = questionService.findById(item);
+            QuizItem quizItem = new QuizItem();
+            quizItem.setQuiz(createdQuiz);
+            quizItem.setQuestion(question);
+            quizItemService.create(quizItem);
+        });
+        return createdQuiz;
     }
 
 
