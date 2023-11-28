@@ -35,8 +35,8 @@ public class QuizApi {
         );
     }
 
-    @GetMapping(value = {"/quiz/search/{keyword}", "/quiz/search/"})
-    public ResponseEntity<ResponseObject> search(@PathVariable(required = false) String keyword){
+    @GetMapping(value = {"/quiz/search"})
+    public ResponseEntity<ResponseObject> search(@RequestParam(required = false) String keyword){
         return ResponseEntity.status(200).body(
                 new ResponseObject(
                         "Found quiz",
@@ -56,6 +56,17 @@ public class QuizApi {
                 )
         );
     }
+
+//    @GetMapping(value = {"/quiz/ofLesson"})
+//    public ResponseEntity<ResponseObject> getQuizOfLesson(@RequestParam(required = false) Integer id){
+//        return ResponseEntity.status(200).body(
+//                new ResponseObject(
+//                        "Found quiz",
+//                        200,
+//                        quizService.findById(id)
+//                )
+//        );
+//    }
 
 }
 

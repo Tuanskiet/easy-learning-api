@@ -52,5 +52,16 @@ public class LessonApi {
         );
     }
 
+    @GetMapping(value = {"/lesson/{id}"})
+    public ResponseEntity<ResponseObject> findLessonById(@PathVariable(required = false) int id){
+        return ResponseEntity.status(200).body(
+                new ResponseObject(
+                        "Found lesson",
+                        200,
+                        lessonService.searchById(id)
+                )
+        );
+    }
+
 }
 

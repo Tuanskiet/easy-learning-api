@@ -1,6 +1,9 @@
 package com.poly.EasyLearning.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerator;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,4 +35,8 @@ public class Quiz implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private AccountApp account;
+
+    @ManyToOne
+    @JoinColumn(name = "lessonId", referencedColumnName = "id")
+    private Lesson lesson;
 }
