@@ -34,4 +34,12 @@ public class UserInfo implements Serializable {
 
     @OneToMany(mappedBy = "userInfo", fetch = FetchType.EAGER)
     private List<Lesson> lessons = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "userInfo")
+    private List<Quiz> quizzes = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "userInfo")
+    private List<Room> rooms = new ArrayList<>();
 }

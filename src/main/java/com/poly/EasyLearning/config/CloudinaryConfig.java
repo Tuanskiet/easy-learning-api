@@ -16,12 +16,11 @@ public class CloudinaryConfig {
     private  String API_SECRET;
     @Bean
     public Cloudinary cloudinary(){
-        Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+        return new Cloudinary(ObjectUtils.asMap(
                 "cloud_name", CLOUD_NAME,
                 "api_key", API_KEY,
                 "api_secret", API_SECRET,
                 "secure", true
         ));
-        return cloudinary;
     }
 }
