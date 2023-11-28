@@ -66,7 +66,7 @@ public class SecurityConfig{
                 .cors(cors -> cors.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeRequests(auth ->
-                        auth.requestMatchers("/api/v1/login", "/api/v1/sign-up", "/oauth2/**").permitAll())
+                        auth.requestMatchers("/api/v1/login", "/api/v1/sign-up", "/oauth2/**", "/api/v1/check-account-exists", "/api/v1/lesson/all").permitAll()) // allow all to login
                 .authorizeRequests(auth->
                         auth.requestMatchers("/api/v1/admin/**").hasAuthority("admin"))
                 .authorizeRequests(auth -> auth.anyRequest().permitAll())

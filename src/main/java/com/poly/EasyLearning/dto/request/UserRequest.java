@@ -17,7 +17,7 @@ public class UserRequest {
     private String password;
     private String fullName;
     private String email;
-    private String avatar;
+    private String avatar = "https://i.imgur.com/6VBx3io.png";
     private Provider provider = Provider.LOCAL;
     private RoleName role = RoleName.ROLE_USER;
 }
