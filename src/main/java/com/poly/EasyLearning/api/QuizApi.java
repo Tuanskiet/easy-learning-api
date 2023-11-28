@@ -59,5 +59,16 @@ public class QuizApi {
         );
     }
 
+//    @GetMapping(value = {"/quiz/ofLesson"})
+//    public ResponseEntity<ResponseObject> getQuizOfLesson(@RequestParam(required = false) Integer id){
+//        return ResponseEntity.status(200).body(
+//                new ResponseObject(
+//                        "Found quiz",
+//                        200,
+//                        quizService.findById(id)
+//                )
+//        );
+//    }
+
 }
 
