@@ -36,13 +36,7 @@ public class AccountApp implements Serializable, UserDetails {
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     private UserInfo userApp;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "account")
-    private List<Quiz> quizzes = new ArrayList<>();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "account")
-    private List<Room> rooms = new ArrayList<>();
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)

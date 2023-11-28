@@ -26,10 +26,10 @@ public class Quiz implements Serializable {
     private String  title;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "quiz")
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
     private List<QuizItem> quizItems = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private AccountApp account;
+    private UserInfo userInfo;
 }

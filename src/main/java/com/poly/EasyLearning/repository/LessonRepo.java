@@ -10,6 +10,5 @@ import java.util.Optional;
 @RequestMapping
 public interface LessonRepo extends JpaRepository<Lesson, Integer> {
     List<Lesson> findByActiveTrue();
-
     List<Lesson> findByTitleContainingOrDescriptionContainingAndActiveTrue(String key1, String key2);
 }
