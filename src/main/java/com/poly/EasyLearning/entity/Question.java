@@ -34,6 +34,6 @@ public class Question implements Serializable {
     private Lesson lesson;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<QuizItem> quizItems = new ArrayList<>();
 }

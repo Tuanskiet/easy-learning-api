@@ -1,4 +1,4 @@
-package com.poly.EasyLearning.handler;
+package com.poly.EasyLearning.exception;
 
 import com.poly.EasyLearning.dto.response.ResponseObject;
 import com.poly.EasyLearning.exception.AccountException;
@@ -13,6 +13,23 @@ public class ExceptionAppHandler {
     public ResponseEntity<ResponseObject> handleAccountException(AccountException ex){
         return ResponseEntity.status(500).body(new ResponseObject(
                 "Account exception!",
+                500,
+                ex.getMessage()
+        ));
+    }
+
+    @ExceptionHandler(RoleException.class)
+    public ResponseEntity<ResponseObject> handleRoleException(RoleException ex){
+        return ResponseEntity.status(500).body(new ResponseObject(
+                "Role exception!",
+                500,
+                ex.getMessage()
+        ));
+    }
+    @ExceptionHandler(LessonException.class)
+    public ResponseEntity<ResponseObject> handleLessonException(LessonException ex){
+        return ResponseEntity.status(500).body(new ResponseObject(
+                "Lesson exception!",
                 500,
                 ex.getMessage()
         ));

@@ -1,18 +1,15 @@
 package com.poly.EasyLearning.api;
 
 
-import com.cloudinary.Cloudinary;
-import com.poly.EasyLearning.dto.response.ImageResponse;
+
 import com.poly.EasyLearning.dto.response.ResponseObject;
+import com.poly.EasyLearning.entity.ImageResponse;
 import com.poly.EasyLearning.service.ImageStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
-import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor

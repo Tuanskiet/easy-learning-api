@@ -11,4 +11,6 @@ import java.util.Optional;
 @Repository
 public interface UserInfoRepository extends JpaRepository<UserInfo, Integer> {
     List<UserInfo> findByFullNameContainingOrEmail(String key1, String key2);
+
+    UserInfo findByAccount(AccountApp accountApp);
 }

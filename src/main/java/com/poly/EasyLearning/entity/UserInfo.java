@@ -25,21 +25,26 @@ public class UserInfo implements Serializable {
     @Column(name = "full_name")
     private String fullName;
     private String email;
-    private String avatar  = "";
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "avatar_id")
+    private ImageResponse avatar;
+
+    private String subscription = "FREE";
     @JsonIgnore
     @OneToOne
     @JoinColumn(name = "account_id")
     private AccountApp account;
 
-    @OneToMany(mappedBy = "userInfo", fetch = FetchType.EAGER)
+    @JsonIgnore
+    @OneToMany(mappedBy = "userInfo", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Lesson> lessons = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "userInfo")
+    @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL)
     private List<Quiz> quizzes = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "userInfo")
+    @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL)
     private List<Room> rooms = new ArrayList<>();
 }
