@@ -34,4 +34,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     public UserInfo save(UserInfo userInfo) {
         return userInfoRepo.save(userInfo);
     }
+    public UserInfo findById(Integer id) {
+        return userInfoRepo.findById(id).orElse(null);
+    }
 }

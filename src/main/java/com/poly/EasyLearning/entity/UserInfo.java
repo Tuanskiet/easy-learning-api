@@ -30,6 +30,7 @@ public class UserInfo implements Serializable {
     @JoinColumn(name = "avatar_id")
     private ImageResponse avatar;
 
+    private String subscription = "FREE";
     @JsonIgnore
     @OneToOne
     @JoinColumn(name = "account_id")
