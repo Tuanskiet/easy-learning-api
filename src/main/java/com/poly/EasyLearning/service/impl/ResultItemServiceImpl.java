@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ResultItemServiceImpl implements ResultItemService {
 
+//    private final ResultItemService resultItemService;
     private final ResultService resultService;
     private final ResultItemRepository resultItemRepository;
     private final QuizItemService quizItemService;
