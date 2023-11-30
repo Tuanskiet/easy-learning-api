@@ -39,5 +39,4 @@ public class Quiz implements Serializable {
     @ManyToOne
     @JoinColumn(name = "lessonId", referencedColumnName = "id")
     private Lesson lesson;
-
 }
