@@ -6,6 +6,7 @@ import com.poly.EasyLearning.dto.request.UserLogin;
 import com.poly.EasyLearning.dto.request.UserRequest;
 import com.poly.EasyLearning.dto.response.ResponseObject;
 import com.poly.EasyLearning.entity.AccountApp;
+import com.poly.EasyLearning.entity.Lesson;
 import com.poly.EasyLearning.service.AccountService;
 import com.poly.EasyLearning.service.ImageStorageService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -99,14 +100,19 @@ public class AccountApi {
             @RequestParam(name = "username") String username,
             @RequestParam(name = "avatar") MultipartFile avatarFile
     ){
-        AccountApp accountUpdated = accountService.updateAvatar(username, avatarFile);
-        return ResponseEntity.status(200).body(
-                new ResponseObject(
-                        "Update avatar successfully",
-                        200,
-                        accountUpdated
-                )
-        );
+        if(avatarFile != null){
+            AccountApp accountUpdated = accountService.updateAvatar(username, avatarFile);
+            return ResponseEntity.status(200).body(
+                    new ResponseObject(
+                            "Update avatar successfully",
+                            200,
+                            accountUpdated
+                    )
+            );
+        }else{
+            throw new IllegalArgumentException("Image file cannot be null!");
+        }
+
     }
 
 
