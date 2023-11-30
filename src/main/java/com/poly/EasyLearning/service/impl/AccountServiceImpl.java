@@ -44,6 +44,16 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.findByUsername(username);
     }
 
+    @Transactional
+    @Override
+    public void deleteByUsername(String username) {
+        Optional<AccountApp> checkAccount = accountRepository.findByUsername(username);
+        if (checkAccount.isEmpty()){
+            throw new UsernameNotFoundException(MessageUtils.Account.NOT_FOUND.getValue());
+        }
+        accountRepository.delete(checkAccount.get());
+    }
+
     /**
      * Create new Account and UserInfo for this Account.
      * @param userRequest contains data fields to create a new Account.

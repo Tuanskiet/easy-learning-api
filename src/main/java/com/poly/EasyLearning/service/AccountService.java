@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface AccountService extends UserDetailsService {
     AccountApp create(UserRequest user);
     Optional<AccountApp> findByUsername(String username);
+
+    void deleteByUsername(String username);
 }

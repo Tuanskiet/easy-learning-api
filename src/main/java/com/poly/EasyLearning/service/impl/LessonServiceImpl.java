@@ -24,11 +24,20 @@ public class LessonServiceImpl implements LessonService {
     public Lesson create(LessonRequest lessonRequest) {
         Lesson newLesson = new Lesson();
         BeanUtils.copyProperties(lessonRequest, newLesson);
-        return lessonRepo.save(newLesson);
+        Lesson createdLesson = lessonRepo.save(newLesson);
+        createdLesson.getQuestions().forEach(question ->{
+            question.setLesson(createdLesson);
+        });
+        return lessonRepo.save(createdLesson);
     }
 
     @Override
     public List<Lesson> searchByKeyword(String keyword) {
         return lessonRepo.findByTitleContainingOrDescriptionContainingAndActiveTrue(keyword, keyword);
+    }
+
+    @Override
+    public Lesson searchById(int id) {
+        return lessonRepo.findById(id).orElseThrow();
     }
 }

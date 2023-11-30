@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,4 +31,16 @@ public class UserInfo implements Serializable {
     @OneToOne
     @JoinColumn(name = "account_id")
     private AccountApp account;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "userInfo", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Lesson> lessons = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL)
+    private List<Quiz> quizzes = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL)
+    private List<Room> rooms = new ArrayList<>();
 }
