@@ -28,6 +28,4 @@ public class RoomServiceImpl implements RoomService {
         room.setQuiz(quizService.findById(roomRequest.getQuizId()));
         return roomRepository.save(room);
     }
-
-
 }

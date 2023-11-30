@@ -31,14 +31,14 @@ public class Lesson implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String  description;
 
-    @OneToOne()
-    @JoinColumn(name = "imageId")
+    @OneToOne
+    @JoinColumn(name = "image_id")
     private ImageResponse image;
 
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
     private List<Question> questions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "lesson")
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
     private List<Quiz> quizs = new ArrayList<>();
 
 

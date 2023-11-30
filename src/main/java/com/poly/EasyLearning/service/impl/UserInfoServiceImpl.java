@@ -1,5 +1,7 @@
 package com.poly.EasyLearning.service.impl;
 
+import com.poly.EasyLearning.entity.AccountApp;
+import com.poly.EasyLearning.entity.ImageResponse;
 import com.poly.EasyLearning.entity.UserInfo;
 import com.poly.EasyLearning.repository.UserInfoRepository;
 import com.poly.EasyLearning.service.UserInfoService;
@@ -24,6 +26,14 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
+    public UserInfo findByAccount(AccountApp accountApp) {
+        return userInfoRepo.findByAccount(accountApp);
+    }
+
+    @Override
+    public UserInfo save(UserInfo userInfo) {
+        return userInfoRepo.save(userInfo);
+    }
     public UserInfo findById(Integer id) {
         return userInfoRepo.findById(id).orElse(null);
     }
