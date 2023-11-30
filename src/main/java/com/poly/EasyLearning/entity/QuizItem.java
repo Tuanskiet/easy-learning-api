@@ -29,6 +29,6 @@ public class QuizItem implements Serializable {
     private Question question;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "quizItem")
+    @OneToMany(mappedBy = "quizItem", cascade = CascadeType.ALL)//
     private List<ResultItem> resultItems = new ArrayList<>();
 }

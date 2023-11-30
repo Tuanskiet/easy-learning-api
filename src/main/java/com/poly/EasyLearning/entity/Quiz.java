@@ -40,4 +40,3 @@ public class Quiz implements Serializable {
     @JoinColumn(name = "lessonId", referencedColumnName = "id")
     private Lesson lesson;
 }
-

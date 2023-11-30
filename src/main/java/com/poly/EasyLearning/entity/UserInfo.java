@@ -25,7 +25,10 @@ public class UserInfo implements Serializable {
     @Column(name = "full_name")
     private String fullName;
     private String email;
-    private String avatar  = "";
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "avatar_id")
+    private ImageResponse avatar;
 
     @JsonIgnore
     @OneToOne

@@ -5,8 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class ResultRequest {
-    Integer roomId;
+@NoArgsConstructor
+public class ResultItemRequest {
+    private String userAns;
+    private Integer questionItemId;
+    private Integer resultId;
 }

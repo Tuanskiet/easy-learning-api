@@ -16,4 +16,14 @@ public class MessageUtils {
             return this.value;
         }
     }
+    public enum Role{
+        NOT_FOUND("Role not found.");
+        private String value;
+        Role(String value){
+            this.value = value;
+        }
+        public String getValue(){
+            return this.value;
+        }
+    }
 }

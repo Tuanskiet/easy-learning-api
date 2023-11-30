@@ -31,8 +31,9 @@ public class Lesson implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String  description;
 
-    @Column(length = 1024)
-    private String  image;
+    @OneToOne
+    @JoinColumn(name = "image_id")
+    private ImageResponse image;
 
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
     private List<Question> questions = new ArrayList<>();

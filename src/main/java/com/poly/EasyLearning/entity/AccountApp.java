@@ -36,7 +36,7 @@ public class AccountApp implements Serializable, UserDetails {
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     private UserInfo userApp;
 
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "account_role",

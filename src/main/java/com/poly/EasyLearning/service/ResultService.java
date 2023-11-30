@@ -9,4 +9,6 @@ public interface ResultService {
     List<Result> getAllActiveTrue();
 
     Result create(ResultRequest resultRequest);
+
+    Result findById(Integer id);
 }

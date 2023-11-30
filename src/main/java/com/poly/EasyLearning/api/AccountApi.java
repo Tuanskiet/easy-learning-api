@@ -1,11 +1,13 @@
 package com.poly.EasyLearning.api;
 
 
+import com.poly.EasyLearning.dto.request.UpdateAccountRequest;
 import com.poly.EasyLearning.dto.request.UserLogin;
 import com.poly.EasyLearning.dto.request.UserRequest;
 import com.poly.EasyLearning.dto.response.ResponseObject;
 import com.poly.EasyLearning.entity.AccountApp;
 import com.poly.EasyLearning.service.AccountService;
+import com.poly.EasyLearning.service.ImageStorageService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolderStrategy;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -73,6 +76,35 @@ public class AccountApi {
                         "Account has been deleted successfully :: " + username,
                         204,
                         null
+                )
+        );
+    }
+
+    @PutMapping("/update-account")
+    public ResponseEntity<?> updateAccount(@RequestBody UpdateAccountRequest accountUpdate
+                                           ){
+        AccountApp accountUpdated = accountService
+                .updateAccount(accountUpdate.getOldUsername(), accountUpdate.getUserUpdate());
+        return ResponseEntity.status(200).body(
+                new ResponseObject(
+                        "Account has been updated successfully",
+                        200,
+                        accountUpdated
+                )
+        );
+    }
+
+    @PatchMapping("/update-avatar")
+    public ResponseEntity<?> updateAvatar(
+            @RequestParam(name = "username") String username,
+            @RequestParam(name = "avatar") MultipartFile avatarFile
+    ){
+        AccountApp accountUpdated = accountService.updateAvatar(username, avatarFile);
+        return ResponseEntity.status(200).body(
+                new ResponseObject(
+                        "Update avatar successfully",
+                        200,
+                        accountUpdated
                 )
         );
     }
