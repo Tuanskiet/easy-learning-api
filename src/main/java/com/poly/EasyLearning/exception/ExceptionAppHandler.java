@@ -19,9 +19,17 @@ public class ExceptionAppHandler {
     }
 
     @ExceptionHandler(RoleException.class)
-    public ResponseEntity<ResponseObject> handleRoleException(AccountException ex){
+    public ResponseEntity<ResponseObject> handleRoleException(RoleException ex){
         return ResponseEntity.status(500).body(new ResponseObject(
                 "Role exception!",
+                500,
+                ex.getMessage()
+        ));
+    }
+    @ExceptionHandler(LessonException.class)
+    public ResponseEntity<ResponseObject> handleLessonException(LessonException ex){
+        return ResponseEntity.status(500).body(new ResponseObject(
+                "Lesson exception!",
                 500,
                 ex.getMessage()
         ));
