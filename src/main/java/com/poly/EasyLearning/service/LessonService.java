@@ -10,6 +10,10 @@ public interface LessonService {
 
     Lesson create(LessonRequest lessonRequest);
 
+    Lesson update(Lesson lesson);
+
+    void delete(Integer id);
+
     List<Lesson> searchByKeyword(String keyword);
 
     Lesson searchById(int id);

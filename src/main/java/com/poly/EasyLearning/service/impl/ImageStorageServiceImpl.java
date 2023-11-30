@@ -1,16 +1,13 @@
 package com.poly.EasyLearning.service.impl;
 
 import com.cloudinary.Cloudinary;
-import com.cloudinary.api.ApiResponse;
 import com.cloudinary.utils.ObjectUtils;
-import com.poly.EasyLearning.dto.response.ImageResponse;
-import com.poly.EasyLearning.exception.AccountException;
+import com.poly.EasyLearning.entity.ImageResponse;
 import com.poly.EasyLearning.service.ImageStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 

@@ -19,4 +19,14 @@ public class ImageServiceImpl implements ImageService {
     public ImageResponse create(ImageResponse imageResponse) {
         return this.imageRepository.save(imageResponse);
     }
+
+    @Override
+    public ImageResponse update(ImageResponse imageResponse) {
+        return this.imageRepository.save(imageResponse);
+    }
+
+    @Override
+    public void delete(String id) {
+        this.imageRepository.deleteById(id);
+    }
 }

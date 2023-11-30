@@ -4,6 +4,7 @@ import com.poly.EasyLearning.dto.request.LessonRequest;
 import com.poly.EasyLearning.entity.Lesson;
 import com.poly.EasyLearning.repository.LessonRepo;
 import com.poly.EasyLearning.service.LessonService;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,16 @@ public class LessonServiceImpl implements LessonService {
             question.setLesson(createdLesson);
         });
         return lessonRepo.save(createdLesson);
+    }
+
+    @Override
+    public Lesson update(Lesson lesson) {
+        return null;
+    }
+
+    @Override
+    public void delete(Integer id) {
+        this.lessonRepo.deleteById(id);
     }
 
     @Override

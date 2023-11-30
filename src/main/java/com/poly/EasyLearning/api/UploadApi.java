@@ -1,9 +1,9 @@
 package com.poly.EasyLearning.api;
 
 
-import com.cloudinary.Cloudinary;
-import com.poly.EasyLearning.dto.response.ImageResponse;
+import com.poly.EasyLearning.entity.ImageResponse;
 import com.poly.EasyLearning.dto.response.ResponseObject;
+import com.poly.EasyLearning.service.ImageService;
 import com.poly.EasyLearning.service.ImageStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,12 +18,14 @@ import java.util.UUID;
 public class UploadApi {
 
     private final ImageStorageService storageService;
+    private final ImageService imageService;
 
     // nếu muốn lưu ảnh vào database, => lưu publicId và url image (các field trong ImageResponse) vào database
     // publicId sẽ được sử dụng để thao tác với Cloudinary (xóa)
     @PostMapping("/file/upload")
     public ResponseEntity<ResponseObject> uploadFile(@RequestParam("image")MultipartFile file) throws IOException {
         ImageResponse imageResponse = storageService.upload( file,"/upload", "1");
+        this.imageService.create(imageResponse);
         return ResponseEntity.status(201).body(new ResponseObject(
                 "Upload image successfully!",
                 201,
