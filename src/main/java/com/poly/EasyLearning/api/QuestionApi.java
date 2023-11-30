@@ -33,7 +33,7 @@ public class QuestionApi {
         );
     }
 
-//    @PostMapping("/lesson/create")
+//    @PostMapping("/question/create")
 //    public ResponseEntity<ResponseObject> doCreateQuestion(@RequestBody QuestionRequest questionRequest){
 //        return ResponseEntity.status(201).body(
 //                new ResponseObject(

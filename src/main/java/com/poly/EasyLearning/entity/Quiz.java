@@ -28,6 +28,8 @@ public class Quiz implements Serializable {
     @Column(length = 1024)
     private String  title;
 
+    private Integer time;
+
     @JsonIgnore
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
     private List<QuizItem> quizItems = new ArrayList<>();

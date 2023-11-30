@@ -2,10 +2,13 @@ package com.poly.EasyLearning.api;
 
 import com.poly.EasyLearning.dto.request.QuizRequest;
 import com.poly.EasyLearning.dto.response.ResponseObject;
+import com.poly.EasyLearning.entity.AccountApp;
 import com.poly.EasyLearning.service.QuizService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,14 +30,18 @@ public class QuizApi {
     }
 
     @PostMapping("/quiz/create")
-    public ResponseEntity<ResponseObject> doCreateQuiz(@RequestBody QuizRequest quizRequest){
-        return ResponseEntity.status(201).body(
-                new ResponseObject(
-                        "Create new quiz.",
-                        200,
-                        quizService.create(quizRequest)
-                )
-        );
+    public ResponseEntity<ResponseObject> doCreateQuiz(@RequestBody QuizRequest quizRequest, @AuthenticationPrincipal AccountApp accountApp){
+        if(accountApp != null){
+            return ResponseEntity.status(201).body(
+                    new ResponseObject(
+                            "Create new quiz.",
+                            200,
+                            quizService.create(quizRequest, accountApp)
+                    )
+            );
+        }else{
+            throw new BadCredentialsException("Bad credentials!");
+        }
     }
 
     @GetMapping(value = {"/quiz/search"})

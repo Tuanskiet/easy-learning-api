@@ -2,10 +2,7 @@ package com.poly.EasyLearning.service.impl;
 
 
 import com.poly.EasyLearning.dto.request.QuizRequest;
-import com.poly.EasyLearning.entity.Lesson;
-import com.poly.EasyLearning.entity.Question;
-import com.poly.EasyLearning.entity.Quiz;
-import com.poly.EasyLearning.entity.QuizItem;
+import com.poly.EasyLearning.entity.*;
 import com.poly.EasyLearning.repository.LessonRepo;
 import com.poly.EasyLearning.repository.QuizRepository;
 import com.poly.EasyLearning.service.QuestionService;
@@ -32,9 +29,10 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public Quiz create(QuizRequest quizRequest) {
+    public Quiz create(QuizRequest quizRequest, AccountApp accountApp) {
         Quiz newQuiz = new Quiz();
         BeanUtils.copyProperties(quizRequest, newQuiz);
+        newQuiz.setUserInfo(accountApp.getUserApp());
         Quiz createdQuiz = quizRepository.save(newQuiz);
         quizRequest.getQuestionIdList().forEach((item) -> {
             Question question = questionService.findById(item);
