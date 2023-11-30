@@ -53,7 +53,6 @@ public class LessonApi {
         }
     }
 
-
     @GetMapping(value = {"/search"})
     public ResponseEntity<ResponseObject> search(@RequestParam(required = false) String keyword){
         return ResponseEntity.status(200).body(
