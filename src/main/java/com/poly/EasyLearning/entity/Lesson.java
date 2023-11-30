@@ -41,8 +41,7 @@ public class Lesson implements Serializable {
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
     private List<Quiz> quizs = new ArrayList<>();
 
-
-    @JsonIgnore
+//    @JsonIgnore
     @JsonProperty("userInfo")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="userInfoId", referencedColumnName = "id")
