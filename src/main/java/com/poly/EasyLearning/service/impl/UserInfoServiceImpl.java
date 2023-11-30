@@ -22,4 +22,9 @@ public class UserInfoServiceImpl implements UserInfoService {
     public List<UserInfo> searchUserByKeyword(String keyword) {
         return userInfoRepo.findByFullNameContainingOrEmail(keyword, keyword);
     }
+
+    @Override
+    public UserInfo findById(Integer id) {
+        return userInfoRepo.findById(id).orElse(null);
+    }
 }

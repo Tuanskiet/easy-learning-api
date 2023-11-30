@@ -8,5 +8,5 @@ import org.springframework.stereotype.Service;
 @Service
 public class RoomServiceImpl implements RoomService {
 
-    private final RoomService roomService;
+//    private final RoomService roomService;
 }

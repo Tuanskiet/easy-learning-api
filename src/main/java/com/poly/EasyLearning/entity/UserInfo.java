@@ -27,6 +27,7 @@ public class UserInfo implements Serializable {
     private String email;
     private String avatar  = "";
 
+    private String subscription = "FREE";
     @JsonIgnore
     @OneToOne
     @JoinColumn(name = "account_id")
