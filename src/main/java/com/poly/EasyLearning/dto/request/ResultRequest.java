@@ -9,5 +9,4 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ResultRequest {
     Integer roomId;
-
 }
