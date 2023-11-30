@@ -1,6 +1,7 @@
 package com.poly.EasyLearning.api;
 
 import com.poly.EasyLearning.dto.request.LessonRequest;
+import com.poly.EasyLearning.dto.request.QuestionRequest;
 import com.poly.EasyLearning.dto.response.ResponseObject;
 import com.poly.EasyLearning.service.LessonService;
 import com.poly.EasyLearning.service.QuestionService;
