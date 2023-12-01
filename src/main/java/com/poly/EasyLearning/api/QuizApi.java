@@ -29,7 +29,7 @@ public class QuizApi {
         );
     }
 
-    @PostMapping("/quiz/create")
+    /*@PostMapping("/quiz/create")
     public ResponseEntity<ResponseObject> doCreateQuiz(@RequestBody QuizRequest quizRequest, @AuthenticationPrincipal AccountApp accountApp){
         if(accountApp != null){
             return ResponseEntity.status(201).body(
@@ -42,6 +42,18 @@ public class QuizApi {
         }else{
             throw new BadCredentialsException("Bad credentials!");
         }
+    }*/
+
+    @PostMapping("/quiz/create")
+    public ResponseEntity<ResponseObject> doCreateQuiz(@RequestBody QuizRequest quizRequest){
+
+        return ResponseEntity.status(201).body(
+                new ResponseObject(
+                        "Create new quiz.",
+                        200,
+                        quizService.create(quizRequest)
+                )
+        );
     }
 
     @GetMapping(value = {"/quiz/search"})

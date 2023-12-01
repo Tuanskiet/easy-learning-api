@@ -68,6 +68,19 @@ public class AccountApi {
         );
     }
 
+//    @PostMapping("/login")
+//    public ResponseEntity<?> doLogin(@RequestBody UserRequest userRequest){
+//        AccountApp account = accountService.login(userRequest);
+//        return ResponseEntity.status(200).body(
+//                new ResponseObject(
+//                        "Login success",
+//                        200,
+//                        account
+//                )
+//        );
+//    }
+
+
     @DeleteMapping({"/delete-account"})
     public ResponseEntity<?> deleteAccount(@RequestParam(name = "username") String username) {
         accountService.deleteByUsername(username);

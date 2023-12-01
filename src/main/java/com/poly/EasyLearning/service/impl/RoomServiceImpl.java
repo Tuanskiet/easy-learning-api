@@ -2,12 +2,16 @@ package com.poly.EasyLearning.service.impl;
 
 import com.poly.EasyLearning.dto.request.RoomRequest;
 import com.poly.EasyLearning.entity.Room;
+import com.poly.EasyLearning.exception.RoomException;
 import com.poly.EasyLearning.repository.RoomRepository;
 import com.poly.EasyLearning.service.QuizService;
 import com.poly.EasyLearning.service.RoomService;
+import com.poly.EasyLearning.utils.MessageUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -19,7 +23,11 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Room findById(Integer id) {
-        return roomRepository.findById(id).orElse(null);
+        Optional<Room> checkRoom = roomRepository.findById(id);
+        if (checkRoom.isEmpty()) {
+            throw new RoomException(MessageUtils.Room.NOT_FOUND.getValue());
+        }
+        return checkRoom.get();
     }
 
     @Override
