@@ -50,6 +50,7 @@ public class LessonServiceImpl implements LessonService {
 //                .upload(lessonRequest.getImageFile(), UploadFolder.LESSON, String.valueOf(newLesson.getId()));
 //        createdLesson.setImage(imageResponse);
         lessonRepo.save(createdLesson);
+        log.info("A lesson has been created by user :: " + accountApp.getUsername());
         return newLesson;
     }
 
@@ -73,7 +74,7 @@ public class LessonServiceImpl implements LessonService {
             throw new LessonException(MessageUtils.Lesson.NOT_FOUND.getValue());
         }
         if(checkLesson.get().getImage() != null) imageStorageService.delete(checkLesson.get().getImage().getPublicId());
-        lessonRepo.delete(checkLesson.get());
+        lessonRepo.deleteById(checkLesson.get().getId());
         log.info("Lesson with id :: {} has been deleted.", lessonId);
     }
 

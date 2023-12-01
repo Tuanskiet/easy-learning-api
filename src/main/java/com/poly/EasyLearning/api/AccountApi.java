@@ -1,32 +1,20 @@
 package com.poly.EasyLearning.api;
 
 
+import com.poly.EasyLearning.dto.request.AuthRequest;
 import com.poly.EasyLearning.dto.request.UpdateAccountRequest;
-import com.poly.EasyLearning.dto.request.UserLogin;
 import com.poly.EasyLearning.dto.request.UserRequest;
+import com.poly.EasyLearning.dto.response.AuthResponse;
 import com.poly.EasyLearning.dto.response.ResponseObject;
 import com.poly.EasyLearning.entity.AccountApp;
-import com.poly.EasyLearning.entity.Lesson;
 import com.poly.EasyLearning.service.AccountService;
-import com.poly.EasyLearning.service.ImageStorageService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import com.poly.EasyLearning.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.context.SecurityContextHolderStrategy;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collection;
 import java.util.Optional;
 
 @RestController
@@ -35,15 +23,28 @@ import java.util.Optional;
 @RequestMapping("/api/v1")
 public class AccountApi {
     private final AccountService accountService;
+    private final AuthService authService;
 
     @PostMapping({"/sign-up", "/admin/manager-user/create"})
     public ResponseEntity<?> doSignUp(@RequestBody UserRequest userRequest){
-        AccountApp newAccount = accountService.create(userRequest);
+        AuthResponse authResponse = accountService.register(userRequest);
         return ResponseEntity.status(201).body(
                 new ResponseObject(
                         "Create new user",
                         201,
-                        newAccount
+                        authResponse
+                )
+        );
+    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<ResponseObject> authenticate(@RequestBody AuthRequest authRequest){
+        AuthResponse authResponse = authService.authenticate(authRequest);
+        return ResponseEntity.status(200).body(
+                new ResponseObject(
+                        "Authentication!",
+                        200,
+                        authResponse
                 )
         );
     }
