@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 
-@Component
+//@Component
 @RequiredArgsConstructor
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     private final AccountService accountService;
@@ -50,7 +51,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                 newUser.setPassword(passwordEncoder.encode("123"));
                 newUser.setAvatar(myOAuth2User.getAvatar());
                 newUser.setProvider(Provider.SOCIAL); // check it
-                accountRes = accountService.create(newUser);
+//                accountRes = accountService.register(newUser);
             }else{
                 accountRes = accountCheck.get();
             }

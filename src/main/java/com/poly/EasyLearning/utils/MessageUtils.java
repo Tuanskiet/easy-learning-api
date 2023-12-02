@@ -83,4 +83,14 @@ public class MessageUtils {
             return this.value;
         }
     }
+    public enum Question{
+        NOT_FOUND("Question not found.");
+        private String value;
+        Question(String value){
+            this.value = value;
+        }
+        public String getValue(){
+            return this.value;
+        }
+    }
 }
