@@ -17,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
+@ToString
 @Table(name = "lesson")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Lesson implements Serializable {
@@ -31,18 +32,17 @@ public class Lesson implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String  description;
 
-    @OneToOne()
-    @JoinColumn(name = "imageId")
+    @OneToOne
+    @JoinColumn(name = "image_id")
     private ImageResponse image;
 
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
     private List<Question> questions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "lesson")
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
     private List<Quiz> quizs = new ArrayList<>();
 
-
-    @JsonIgnore
+//    @JsonIgnore
     @JsonProperty("userInfo")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="userInfoId", referencedColumnName = "id")

@@ -56,5 +56,10 @@ public class QuizServiceImpl implements QuizService {
         return quizRepository.findById(id).orElse(null);
     }
 
+    @Override
+    public void delete(Integer id) {
+        this.quizRepository.deleteById(id);
+    }
+
 
 }

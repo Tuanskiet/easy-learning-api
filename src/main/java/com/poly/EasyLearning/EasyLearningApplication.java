@@ -40,6 +40,6 @@ class test{
 		if(oAuth2User != null){
 			model.addAttribute("user", oAuth2User.getName());
 		}
-		return "result";
+		return "result 4:40 12/2/2023";
 	}
 }

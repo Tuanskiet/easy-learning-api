@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class RoomServiceImpl implements RoomService {
 
+
+//    private final RoomService roomService;
+
     private final RoomRepository roomRepository;
     private final QuizService quizService;
 
@@ -27,6 +30,4 @@ public class RoomServiceImpl implements RoomService {
         room.setQuiz(quizService.findById(roomRequest.getQuizId()));
         return roomRepository.save(room);
     }
-
-
 }

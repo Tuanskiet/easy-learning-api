@@ -10,4 +10,9 @@ public interface QuestionService {
     List<Question> getAllActiveTrue();
 
     Question findById(Integer id);
+
+    Question createQuestion(Question question);
+
+    void delete(Integer id);
+    Question updateQuestion(Question question);
 }

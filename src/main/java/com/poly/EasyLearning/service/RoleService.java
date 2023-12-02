@@ -23,4 +23,15 @@ public class RoleService {
     public Optional<RoleApp> findRole(RoleName roleName){
         return roleRepo.findByName(roleName);
     }
+
+    public RoleApp getRoleByName(RoleName roleName) {
+        RoleApp roleApp = roleRepo.findByName(roleName)
+                .orElse(roleRepo.findByName(RoleName.ROLE_USER)
+                        .orElseGet(() -> {
+                            RoleApp newRole = new RoleApp();
+                            newRole.setName(RoleName.ROLE_USER);
+                            return roleRepo.save(newRole);
+                        }));
+        return roleApp;
+    }
 }

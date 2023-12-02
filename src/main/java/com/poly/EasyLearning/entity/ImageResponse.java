@@ -12,11 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "ImageReponse")
+@Table(name = "image_reponse") // check it
 public class ImageResponse {
     @Id
     private String publicId;
     private String url;
-
-
 }

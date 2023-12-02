@@ -3,11 +3,14 @@ package com.poly.EasyLearning.service.impl;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.poly.EasyLearning.entity.ImageResponse;
+
+
+import com.poly.EasyLearning.repository.ImageRepository;
+
 import com.poly.EasyLearning.service.ImageStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.Map;
 
@@ -18,6 +21,7 @@ public class ImageStorageServiceImpl implements ImageStorageService {
 
     private static final String UPLOAD_PRESET = "ml_default";
     private final Cloudinary cloudinary;
+    private final ImageRepository imageRepository;
 
     /**
      * Upload images to Cloudinary. If an image with the same name already exists, it will be overwritten.
@@ -39,11 +43,12 @@ public class ImageStorageServiceImpl implements ImageStorageService {
             );
 
             Map resource = cloudinary.uploader().upload(multipartFile.getBytes(), params);
-
-            return new ImageResponse(
+            ImageResponse newImageResponse = new ImageResponse(
                     resource.get("public_id").toString(),
                     resource.get("url").toString()
             );
+            imageRepository.save(newImageResponse);
+            return newImageResponse;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -60,8 +65,11 @@ public class ImageStorageServiceImpl implements ImageStorageService {
     public void delete(String publicId) {
         try {
             cloudinary.uploader().destroy(publicId, null);
+            imageRepository.deleteById(publicId);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+
 }

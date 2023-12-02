@@ -28,12 +28,11 @@ public class Question implements Serializable {
     private String  answerC;
     private String  correctAnswer;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "lesson_id", referencedColumnName = "id")
     private Lesson lesson;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<QuizItem> quizItems = new ArrayList<>();
 }

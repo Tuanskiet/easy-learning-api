@@ -27,4 +27,27 @@ public class QuestionServiceImpl implements QuestionService {
     public Question findById(Integer id) {
         return questionRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public Question createQuestion(Question question) {
+        return questionRepository.save(question);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        this.questionRepository.deleteById(id);
+    }
+
+    @Override
+    public Question updateQuestion(Question question) {
+        Question currentQuestion = questionRepository.findById(question.getId()).get();
+        if(currentQuestion != null){
+            currentQuestion.setQuestion(question.getQuestion());
+            currentQuestion.setAnswerA(question.getAnswerA());
+            currentQuestion.setAnswerB(question.getAnswerB());
+            currentQuestion.setAnswerC(question.getAnswerC());
+            currentQuestion.setCorrectAnswer(question.getCorrectAnswer());
+        }
+        return questionRepository.save(currentQuestion);
+    }
 }
