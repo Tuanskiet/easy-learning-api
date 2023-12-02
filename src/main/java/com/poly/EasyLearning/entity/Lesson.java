@@ -31,19 +31,21 @@ public class Lesson implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String  description;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id")
     private ImageResponse image;
+
 
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
     private List<Question> questions = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
     private List<Quiz> quizs = new ArrayList<>();
 
-//    @JsonIgnore
+    @JsonIgnore
     @JsonProperty("userInfo")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="userInfoId", referencedColumnName = "id")
     private UserInfo userInfo;
 

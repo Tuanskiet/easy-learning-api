@@ -1,6 +1,8 @@
 package com.poly.EasyLearning.service.impl;
 
+import com.poly.EasyLearning.dto.request.AuthRequest;
 import com.poly.EasyLearning.dto.request.UserRequest;
+import com.poly.EasyLearning.dto.response.AuthResponse;
 import com.poly.EasyLearning.entity.AccountApp;
 import com.poly.EasyLearning.entity.ImageResponse;
 import com.poly.EasyLearning.entity.RoleApp;
@@ -8,16 +10,17 @@ import com.poly.EasyLearning.entity.UserInfo;
 import com.poly.EasyLearning.enums.RoleName;
 import com.poly.EasyLearning.exception.AccountException;
 import com.poly.EasyLearning.exception.RoleException;
-import com.poly.EasyLearning.service.ImageStorageService;
-import com.poly.EasyLearning.service.RoleService;
-import com.poly.EasyLearning.service.UserInfoService;
+import com.poly.EasyLearning.service.*;
 import com.poly.EasyLearning.utils.MessageUtils;
 import com.poly.EasyLearning.repository.AccountRepository;
-import com.poly.EasyLearning.service.AccountService;
 import com.poly.EasyLearning.utils.UploadFolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,17 +39,8 @@ public class AccountServiceImpl implements AccountService {
     private final ImageStorageService storageService;
     private final UserInfoService userInfoService;
     private final ImageStorageService imageStorageService;
+    private final JwtService jwtService;
 
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<AccountApp> user = accountRepository.findByUsername(username);
-        if (user.isPresent()){
-            return user.get();
-        }else {
-            throw new UsernameNotFoundException(MessageUtils.Account.NOT_FOUND.getValue());
-        }
-    }
 
     public Optional<AccountApp> findByUsername(String username){
         return accountRepository.findByUsername(username);
@@ -66,7 +60,9 @@ public class AccountServiceImpl implements AccountService {
         if (checkAccount.isEmpty()){
             throw new AccountException(MessageUtils.Account.NOT_FOUND.getValue());
         }
-        imageStorageService.delete(checkAccount.get().getUserApp().getAvatar().getPublicId());
+        if(checkAccount.get().getUserApp()!= null && checkAccount.get().getUserApp().getAvatar() != null) {
+            imageStorageService.delete(checkAccount.get().getUserApp().getAvatar().getPublicId());
+        }
         accountRepository.delete(checkAccount.get());
         log.info("Account with username :: {} has been deleted.", username);
     }
@@ -121,11 +117,11 @@ public class AccountServiceImpl implements AccountService {
     /**
      * Create new Account and UserInfo for this Account.
      * @param userRequest contains data fields to create a new Account.
-     * @return new AccountApp  just created - if no error.
+     * @return new AuthResponse (containing jwt token) - if no error.
      * @throws AccountException – if Account already exist.
      */
     @Override
-    public AccountApp create(UserRequest userRequest) {
+    public AuthResponse register(UserRequest userRequest) {
         Optional<AccountApp> accountCheck = accountRepository.findByUsername(userRequest.getUsername());
         if(accountCheck.isPresent()){
             log.warn(MessageUtils.Account.ALREADY_EXIST.getValue() + "|| username : " + userRequest.getUsername());
@@ -156,6 +152,13 @@ public class AccountServiceImpl implements AccountService {
         newAccount.setUserApp(userInfo); // set user info for new Account
         accountRepository.save(newAccount);
         log.info("Created new user with username : {}", userRequest.getUsername());
-        return newAccount;
+        String token = jwtService.generateToken(newAccount);
+        return new AuthResponse(token);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return  accountRepository.findByUsername(username)
+                .orElseThrow(() ->  new UsernameNotFoundException(MessageUtils.Account.NOT_FOUND.getValue()));
     }
 }

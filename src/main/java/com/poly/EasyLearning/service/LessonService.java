@@ -3,6 +3,7 @@ package com.poly.EasyLearning.service;
 import com.poly.EasyLearning.dto.request.LessonRequest;
 import com.poly.EasyLearning.entity.AccountApp;
 import com.poly.EasyLearning.entity.Lesson;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface LessonService {
     void deleteById(Integer lessonId);
 
     Lesson updateLesson(Lesson lessonUpdate);
+
+    Lesson uploadImage(Integer lessonId, MultipartFile imageFile);
 }

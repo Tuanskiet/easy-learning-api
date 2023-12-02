@@ -10,4 +10,6 @@ public interface QuestionService {
     List<Question> getAllActiveTrue();
 
     Question findById(Integer id);
+
+    Question save(Question question);
 }

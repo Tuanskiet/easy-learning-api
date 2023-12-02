@@ -12,11 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/lesson")
 public class LessonApi {
     private LessonService lessonService;
     @Autowired
@@ -24,7 +25,7 @@ public class LessonApi {
         this.lessonService = lessonService;
     }
 
-    @GetMapping("/lesson/all")
+    @GetMapping("/all")
     public ResponseEntity<ResponseObject> getAllLesson(){
         return ResponseEntity.status(200).body(
                 new ResponseObject(
@@ -35,7 +36,7 @@ public class LessonApi {
         );
     }
 
-    @PostMapping("/lesson/create")
+    @PostMapping("/create")
     public ResponseEntity<ResponseObject> doCreateLesson(
             @RequestBody LessonRequest lessonRequest,
             @AuthenticationPrincipal AccountApp accountApp){
@@ -52,7 +53,7 @@ public class LessonApi {
         }
     }
 
-    @GetMapping(value = {"/lesson/search"})
+    @GetMapping(value = {"/search"})
     public ResponseEntity<ResponseObject> search(@RequestParam(required = false) String keyword){
         return ResponseEntity.status(200).body(
                 new ResponseObject(
@@ -63,7 +64,7 @@ public class LessonApi {
         );
     }
 
-    @GetMapping(value = {"/lesson/{id}"})
+    @GetMapping(value = {"/{id}"})
     public ResponseEntity<ResponseObject> findLessonById(@PathVariable(required = false) Integer id){
         return ResponseEntity.status(200).body(
                 new ResponseObject(
@@ -74,7 +75,7 @@ public class LessonApi {
         );
     }
 
-    @DeleteMapping("/lesson/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<?> deleteLesson(@RequestParam(name = "id") Integer lessonId) {
         lessonService.deleteById(lessonId);
         return ResponseEntity.status(200).body(
@@ -86,7 +87,7 @@ public class LessonApi {
         );
     }
 
-    @PutMapping("/lesson/update")
+    @PutMapping("/update")
     public ResponseEntity<?> updateLesson(@RequestBody Lesson lessonUpdate
     ){
         Lesson lessonUpdated = lessonService.updateLesson(lessonUpdate);
@@ -97,6 +98,25 @@ public class LessonApi {
                         lessonUpdated
                 )
         );
+    }
+
+    @PatchMapping("/upload-image")
+    public ResponseEntity<?> updateAvatar(
+            @RequestParam(name = "id") Integer lessonId,
+            @RequestParam(name = "image") MultipartFile imageFile
+    ){
+        if(imageFile != null){
+            Lesson lessonUpdated = lessonService.uploadImage(lessonId, imageFile);
+            return ResponseEntity.status(200).body(
+                    new ResponseObject(
+                            "Upload lesson image successfully",
+                            200,
+                            lessonUpdated
+                    )
+            );
+        }else{
+            throw new IllegalArgumentException("Image file cannot be null!");
+        }
     }
 
 }

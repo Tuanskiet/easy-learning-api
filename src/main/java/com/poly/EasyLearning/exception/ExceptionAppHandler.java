@@ -34,4 +34,6 @@ public class ExceptionAppHandler {
                 ex.getMessage()
         ));
     }
+
+    //MalformedJwtException
 }
