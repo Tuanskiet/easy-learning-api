@@ -26,7 +26,9 @@ public class Quiz implements Serializable {
     private Boolean active = true;
 
     @Column(length = 1024)
-    private String title;
+    private String  title;
+
+    private Integer time;
 
     @JsonIgnore
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)

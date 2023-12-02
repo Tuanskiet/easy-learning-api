@@ -114,6 +114,25 @@ public class AccountServiceImpl implements AccountService {
         return checkAccount.get();
     }
 
+//    @Override
+//    public AccountApp login(UserRequest user) {
+//        Optional<AccountApp> account = accountRepository.findByUsername(user.getUsername());
+//        if(account.isPresent()){
+//            if(account.get().getUsername().equals(user.getUsername()) && account.get().getPassword().equals(user.getPassword())){
+//                log.info(account.get().getUsername() + " " + account.get().getPassword());
+//                log.info("Login success with username : {}", user.getUsername());
+//                return account.get();
+//            }
+//            log.warn(MessageUtils.Account.WRONG_PASSWORD.getValue() + "|| username : " + user.getUsername());
+//            //throw new AuthenticationFailException(MessageUtils.Account.WRONG_PASSWORD.getValue());
+//        }
+//        else {
+//            log.warn(MessageUtils.Account.WRONG_USERNAME.getValue() + "|| username : " + user.getUsername());
+//            //throw new AuthenticationFailException(MessageUtils.Account.WRONG_USERNAME.getValue());
+//        }
+//        return account.get();
+//    }
+
     /**
      * Create new Account and UserInfo for this Account.
      * @param userRequest contains data fields to create a new Account.

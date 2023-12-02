@@ -31,7 +31,6 @@ public class Result implements Serializable {
     @OneToOne(mappedBy = "result", cascade = CascadeType.ALL)
     private Room room;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "result")
     private List<ResultItem> resultItems = new ArrayList<>();
 }

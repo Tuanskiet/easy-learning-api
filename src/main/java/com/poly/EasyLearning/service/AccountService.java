@@ -19,4 +19,6 @@ public interface AccountService extends UserDetailsService{
     AccountApp updateAccount(String oldUsername, UserRequest userUpdate);
 
     AccountApp updateAvatar(String username, MultipartFile avatarFile);
+
+//    AccountApp login(UserRequest user);
 }
