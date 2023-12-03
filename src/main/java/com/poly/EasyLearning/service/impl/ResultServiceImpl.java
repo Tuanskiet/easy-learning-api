@@ -43,4 +43,13 @@ public class ResultServiceImpl implements ResultService {
         }
         return checkResult.get();
     }
+
+    @Override
+    public Result findByRoomId(Integer roomId) {
+        Optional<Result> checkResult = resultRepository.findByRoom_Id(roomId);
+        if (checkResult.isEmpty()) {
+            throw new ResultException(MessageUtils.Result.NOT_FOUND.getValue());
+        }
+        return checkResult.get();
+    }
 }

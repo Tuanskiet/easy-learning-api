@@ -31,15 +31,15 @@ public class Quiz implements Serializable {
 
     private Integer time;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "quiz")
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
     private List<QuizItem> quizItems = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserInfo userInfo;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "lessonId", referencedColumnName = "id")
     private Lesson lesson;

@@ -67,7 +67,8 @@ public class SecurityConfig{
                                                 "/oauth2/**",
                                                 "/api/v1/check-account-exists",
                                                 "/api/v1/lesson/all",
-                                                "/api/v1/authenticate"
+                                                "/api/v1/authenticate",
+                                                "/api/v1/quiz/get/**"
                                         ).permitAll()
                                         .requestMatchers("/api/v1/admin/**").hasAuthority("admin")
                                         .anyRequest().authenticated())
