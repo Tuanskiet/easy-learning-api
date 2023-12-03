@@ -17,7 +17,6 @@ import java.util.Optional;
 @Service
 public class RoomServiceImpl implements RoomService {
 
-//    private final RoomService roomService;
     private final RoomRepository roomRepository;
     private final QuizService quizService;
 

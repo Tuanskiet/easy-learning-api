@@ -2,12 +2,17 @@ package com.poly.EasyLearning.api;
 
 import com.poly.EasyLearning.dto.request.LessonRequest;
 import com.poly.EasyLearning.dto.response.ResponseObject;
-import com.poly.EasyLearning.entity.AccountApp;
 import com.poly.EasyLearning.entity.Lesson;
+
+import com.poly.EasyLearning.entity.AccountApp;
+import com.poly.EasyLearning.entity.Question;
+import com.poly.EasyLearning.entity.Quiz;
+import com.poly.EasyLearning.service.ImageStorageService;
 import com.poly.EasyLearning.service.LessonService;
+import com.poly.EasyLearning.service.QuestionService;
+import com.poly.EasyLearning.service.QuizService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,11 +24,10 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 @RequestMapping("/api/v1/lesson")
 public class LessonApi {
-    private LessonService lessonService;
-    @Autowired
-    public LessonApi(LessonService lessonService) {
-        this.lessonService = lessonService;
-    }
+    private final LessonService lessonService;
+    private final ImageStorageService imageService;
+    private final QuestionService questionService;
+    private final QuizService quizService;
 
     @GetMapping("/all")
     public ResponseEntity<ResponseObject> getAllLesson(){
@@ -87,10 +91,20 @@ public class LessonApi {
         );
     }
 
-    @PutMapping("/update")
+
+    @DeleteMapping(value = {"/delete/{id}"})
+    public ResponseEntity<Void> delete(@PathVariable(required = true) int id) {
+        Lesson lesson = lessonService.findById(id);
+        this.lessonService.delete(id);
+        this.imageService.delete(lesson.getImage().getPublicId());
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/update")
     public ResponseEntity<?> updateLesson(@RequestBody Lesson lessonUpdate
     ){
         Lesson lessonUpdated = lessonService.updateLesson(lessonUpdate);
+        System.out.println(lessonUpdate.toString());
         return ResponseEntity.status(200).body(
                 new ResponseObject(
                         "Lesson has been updated successfully.",

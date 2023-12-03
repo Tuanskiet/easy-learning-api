@@ -17,7 +17,6 @@ public class ResultItemServiceImpl implements ResultItemService {
     private final ResultItemRepository resultItemRepository;
     private final QuizItemService quizItemService;
 
-
     @Override
     public ResultItem create(ResultItemRequest resultItemRequest) {
         ResultItem resultItem = new ResultItem();

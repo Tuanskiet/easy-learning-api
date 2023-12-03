@@ -13,6 +13,7 @@ import com.poly.EasyLearning.service.LessonService;
 import com.poly.EasyLearning.service.QuestionService;
 import com.poly.EasyLearning.utils.MessageUtils;
 import com.poly.EasyLearning.utils.UploadFolder;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -54,6 +55,12 @@ public class LessonServiceImpl implements LessonService {
         return newLesson;
     }
 
+
+    @Override
+    public void delete(Integer id) {
+        this.lessonRepo.deleteById(id);
+    }
+
     @Override
     public List<Lesson> searchByKeyword(String keyword) {
         return lessonRepo.findByTitleContainingOrDescriptionContainingAndActiveTrue(keyword, keyword);
@@ -73,24 +80,25 @@ public class LessonServiceImpl implements LessonService {
         if (checkLesson.isEmpty()){
             throw new LessonException(MessageUtils.Lesson.NOT_FOUND.getValue());
         }
-        if(checkLesson.get().getImage() != null) imageStorageService.delete(checkLesson.get().getImage().getPublicId());
-        lessonRepo.deleteById(checkLesson.get().getId());
+
+        if(checkLesson.get().getImage() != null) {
+            imageStorageService.delete(checkLesson.get().getImage().getPublicId());
+        }
+
+        lessonRepo.delete(checkLesson.get());
         log.info("Lesson with id :: {} has been deleted.", lessonId);
     }
 
     @Override
     public Lesson updateLesson(Lesson lessonUpdate) {
-        Optional<Lesson> checkLesson = lessonRepo.findById(lessonUpdate.getId());
-        Lesson oldLesson = checkLesson.get();
-        if (checkLesson.isEmpty()){
-            throw new LessonException(MessageUtils.Lesson.NOT_FOUND.getValue());
+        Lesson currentLesson = lessonRepo.findById(lessonUpdate.getId()).get();
+        if(currentLesson != null){
+            currentLesson.setTitle(lessonUpdate.getTitle());
+            currentLesson.setDescription(lessonUpdate.getDescription());
+            currentLesson.setImage(lessonUpdate.getImage());
         }
-        BeanUtils.copyProperties(lessonUpdate, oldLesson, "userInfo", "quizs", "image");
-        Lesson updatedLesson = lessonRepo.save(oldLesson);
-//        lessonUpdate.getQuestions().forEach(question ->{
-//            questionService.save(question);
-//        });
-        return updatedLesson;
+        System.out.println(currentLesson.toString());
+        return lessonRepo.save(currentLesson);
     }
 
     @Override

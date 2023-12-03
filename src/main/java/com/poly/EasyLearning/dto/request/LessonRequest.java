@@ -16,5 +16,8 @@ import java.util.List;
 public class LessonRequest {
     private String  title;
     private String  description;
+
+    private MultipartFile image;
+
     private List<Question> questions = new ArrayList<>();
 }

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerator;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,7 +32,8 @@ public class Quiz implements Serializable {
     private Integer time;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "quiz")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<QuizItem> quizItems = new ArrayList<>();
 
     @ManyToOne
