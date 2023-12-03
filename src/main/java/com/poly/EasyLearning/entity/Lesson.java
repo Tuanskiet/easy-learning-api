@@ -17,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
+@ToString
 @Table(name = "lesson")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Lesson implements Serializable {

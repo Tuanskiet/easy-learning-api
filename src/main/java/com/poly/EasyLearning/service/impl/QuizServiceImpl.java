@@ -76,5 +76,10 @@ public class QuizServiceImpl implements QuizService {
         }return checkQuiz.get();
     }
 
+    @Override
+    public void delete(Integer id) {
+        this.quizRepository.deleteById(id);
+    }
+
 
 }

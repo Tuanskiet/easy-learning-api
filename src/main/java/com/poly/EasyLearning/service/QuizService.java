@@ -16,4 +16,6 @@ public interface QuizService {
     List<Quiz> searchByKeyword(String keyword);
 
     Quiz findById(Integer id);
+    void delete(Integer id);
+
 }

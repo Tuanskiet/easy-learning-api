@@ -3,7 +3,10 @@ package com.poly.EasyLearning.service.impl;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.poly.EasyLearning.entity.ImageResponse;
+
+
 import com.poly.EasyLearning.repository.ImageRepository;
+
 import com.poly.EasyLearning.service.ImageStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -62,8 +65,11 @@ public class ImageStorageServiceImpl implements ImageStorageService {
     public void delete(String publicId) {
         try {
             cloudinary.uploader().destroy(publicId, null);
+            imageRepository.deleteById(publicId);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+
 }
