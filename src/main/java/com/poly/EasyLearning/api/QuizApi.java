@@ -19,7 +19,7 @@ public class QuizApi {
     private final QuizService quizService;
 
     @GetMapping("/quiz/all")
-    public ResponseEntity<ResponseObject> getAllQuiz(){
+    public ResponseEntity<ResponseObject> getAllQuiz() {
         return ResponseEntity.status(200).body(
                 new ResponseObject(
                         "Get all quiz.",
@@ -29,9 +29,9 @@ public class QuizApi {
         );
     }
 
-    /*@PostMapping("/quiz/create")
-    public ResponseEntity<ResponseObject> doCreateQuiz(@RequestBody QuizRequest quizRequest, @AuthenticationPrincipal AccountApp accountApp){
-        if(accountApp != null){
+    @PostMapping("/quiz/create")
+    public ResponseEntity<ResponseObject> doCreateQuiz(@RequestBody QuizRequest quizRequest, @AuthenticationPrincipal AccountApp accountApp) {
+        if (accountApp != null) {
             return ResponseEntity.status(201).body(
                     new ResponseObject(
                             "Create new quiz.",
@@ -39,25 +39,13 @@ public class QuizApi {
                             quizService.create(quizRequest, accountApp)
                     )
             );
-        }else{
+        } else {
             throw new BadCredentialsException("Bad credentials!");
         }
-    }*/
-
-    @PostMapping("/quiz/create")
-    public ResponseEntity<ResponseObject> doCreateQuiz(@RequestBody QuizRequest quizRequest){
-
-        return ResponseEntity.status(201).body(
-                new ResponseObject(
-                        "Create new quiz.",
-                        200,
-                        quizService.create(quizRequest)
-                )
-        );
     }
 
     @GetMapping(value = {"/quiz/search"})
-    public ResponseEntity<ResponseObject> search(@RequestParam(required = false) String keyword){
+    public ResponseEntity<ResponseObject> search(@RequestParam(required = false) String keyword) {
         return ResponseEntity.status(200).body(
                 new ResponseObject(
                         "Found quiz",
@@ -67,8 +55,8 @@ public class QuizApi {
         );
     }
 
-    @GetMapping(value = {"/quiz/{id}"})
-    public ResponseEntity<ResponseObject> getQuiz(@PathVariable(required = false) Integer id){
+    @GetMapping(value = {"/quiz/get/{id}"})
+    public ResponseEntity<ResponseObject> getQuiz(@PathVariable(required = false) Integer id) {
         return ResponseEntity.status(200).body(
                 new ResponseObject(
                         "Found quiz",

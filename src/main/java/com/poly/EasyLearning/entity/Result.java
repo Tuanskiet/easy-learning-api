@@ -28,7 +28,8 @@ public class Result implements Serializable {
 
     private Boolean active = true;
 
-    @OneToOne(mappedBy = "result", cascade = CascadeType.ALL)
+    @OneToOne
+    @JoinColumn(name = "room_id")
     private Room room;
 
     @OneToMany(mappedBy = "result")

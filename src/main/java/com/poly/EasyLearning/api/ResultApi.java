@@ -16,7 +16,7 @@ public class ResultApi {
     private final ResultService resultService;
 
     @GetMapping("/result/all")
-    public ResponseEntity<ResponseObject> getAllQuiz(){
+    public ResponseEntity<ResponseObject> getAllQuiz() {
         return ResponseEntity.status(200).body(
                 new ResponseObject(
                         "Get all results.",
@@ -27,7 +27,7 @@ public class ResultApi {
     }
 
     @PostMapping("/result/create")
-    public ResponseEntity<ResponseObject> doCreateResult(@RequestBody ResultRequest resultRequest){
+    public ResponseEntity<ResponseObject> doCreateResult(@RequestBody ResultRequest resultRequest) {
         return ResponseEntity.status(201).body(
                 new ResponseObject(
                         "Create new result.",
@@ -48,8 +48,8 @@ public class ResultApi {
         );
     }*/
 
-   /*@GetMapping(value = {"/result/{id}"})
-    public ResponseEntity<ResponseObject> getResult(@PathVariable(required = false) Integer id){
+    @GetMapping(value = {"/result/get/{id}"})
+    public ResponseEntity<ResponseObject> getResult(@PathVariable(required = false) Integer id) {
         return ResponseEntity.status(200).body(
                 new ResponseObject(
                         "Found result",
@@ -57,6 +57,18 @@ public class ResultApi {
                         resultService.findById(id)
                 )
         );
-    }*/
+    }
+
+    @GetMapping(value = {"/result/get"})
+    public ResponseEntity<ResponseObject> getResultByRoomId(@PathVariable(required = false) Integer roomId) {
+        return ResponseEntity.status(200).body(
+                new ResponseObject(
+                        "Found result",
+                        200,
+                       resultService.findByRoomId(roomId)
+
+                )
+        );
+    }
 }
 

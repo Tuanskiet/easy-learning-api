@@ -49,21 +49,6 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public Quiz create(QuizRequest quizRequest) {
-        Quiz newQuiz = new Quiz();
-        BeanUtils.copyProperties(quizRequest, newQuiz);
-        Quiz createdQuiz = quizRepository.save(newQuiz);
-        quizRequest.getQuestionIdList().forEach((item) -> {
-            Question question = questionService.findById(item);
-            QuizItem quizItem = new QuizItem();
-            quizItem.setQuiz(createdQuiz);
-            quizItem.setQuestion(question);
-            quizItemService.create(quizItem);
-        });
-        return createdQuiz;
-    }
-
-    @Override
     public List<Quiz> searchByKeyword(String keyword) {
         return quizRepository.findByTitleContainingAndActiveTrue(keyword);
     }

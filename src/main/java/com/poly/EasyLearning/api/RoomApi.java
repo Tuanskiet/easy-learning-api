@@ -3,11 +3,13 @@ package com.poly.EasyLearning.api;
 import com.poly.EasyLearning.dto.request.QuizRequest;
 import com.poly.EasyLearning.dto.request.RoomRequest;
 import com.poly.EasyLearning.dto.response.ResponseObject;
+import com.poly.EasyLearning.entity.AccountApp;
 import com.poly.EasyLearning.service.QuizService;
 import com.poly.EasyLearning.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -31,17 +33,17 @@ public class RoomApi {
 //    }
 
     @PostMapping("/room/create")
-    public ResponseEntity<ResponseObject> doCreateRoom(@RequestBody RoomRequest roomRequest){
+    public ResponseEntity<ResponseObject> doCreateRoom(@RequestBody RoomRequest roomRequest, @AuthenticationPrincipal AccountApp accountApp){
         return ResponseEntity.status(201).body(
                 new ResponseObject(
                         "Create new room.",
                         200,
-                        roomService.create(roomRequest)
+                        roomService.create(roomRequest, accountApp)
                 )
         );
     }
 
-    @GetMapping(value = {"/room/{id}"})
+    @GetMapping(value = {"/room/get/{id}"})
     public ResponseEntity<ResponseObject> getQuiz(@PathVariable(required = false) Integer id){
         return ResponseEntity.status(200).body(
                 new ResponseObject(

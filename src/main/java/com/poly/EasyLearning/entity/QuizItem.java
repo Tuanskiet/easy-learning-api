@@ -20,6 +20,7 @@ public class QuizItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "quiz_id", referencedColumnName = "id")
     private Quiz quiz;

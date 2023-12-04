@@ -1,7 +1,9 @@
 package com.poly.EasyLearning.service.impl;
 
 import com.poly.EasyLearning.dto.request.RoomRequest;
+import com.poly.EasyLearning.entity.AccountApp;
 import com.poly.EasyLearning.entity.Room;
+import com.poly.EasyLearning.entity.UserInfo;
 import com.poly.EasyLearning.exception.RoomException;
 import com.poly.EasyLearning.repository.RoomRepository;
 import com.poly.EasyLearning.service.QuizService;
@@ -33,6 +35,14 @@ public class RoomServiceImpl implements RoomService {
     public Room create(RoomRequest roomRequest) {
         Room room = new Room();
         room.setQuiz(quizService.findById(roomRequest.getQuizId()));
+        return roomRepository.save(room);
+    }
+
+    @Override
+    public Room create(RoomRequest roomRequest, AccountApp accountApp) {
+        Room room = new Room();
+        room.setQuiz(quizService.findById(roomRequest.getQuizId()));
+        room.setUserInfo(accountApp.getUserApp());
         return roomRepository.save(room);
     }
 }
