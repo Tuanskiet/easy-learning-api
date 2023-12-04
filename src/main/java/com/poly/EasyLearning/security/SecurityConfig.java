@@ -56,7 +56,8 @@ public class SecurityConfig{
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> cors.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()))
+//                .cors(cors -> cors.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeRequests(auth ->
                                 auth
@@ -66,7 +67,8 @@ public class SecurityConfig{
                                                 "/oauth2/**",
                                                 "/api/v1/check-account-exists",
                                                 "/api/v1/lesson/all",
-                                                "/api/v1/authenticate"
+                                                "/api/v1/authenticate",
+                                                "/api/v1/quiz/get/**"
                                         ).permitAll()
                                         .requestMatchers("/api/v1/admin/**").hasAuthority("admin")
                                         .anyRequest().authenticated())

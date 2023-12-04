@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResultRequest {
-    Integer roomId;
+    private Integer roomId;
 }

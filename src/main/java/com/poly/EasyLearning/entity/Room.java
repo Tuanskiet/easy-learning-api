@@ -25,13 +25,14 @@ public class Room implements Serializable {
     @JoinColumn(name = "quiz_id", referencedColumnName = "id")
     private Quiz quiz;
 
+    @JsonIgnore
     @JsonProperty("account")
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserInfo userInfo;
 
-    @OneToOne
-    @JoinColumn(name = "room_id")
+    @JsonIgnore
+    @OneToOne(mappedBy = "room", cascade = CascadeType.ALL)
     private Result result;
 
 }

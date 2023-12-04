@@ -2,6 +2,7 @@ package com.poly.EasyLearning.api;
 
 
 import com.poly.EasyLearning.dto.request.AuthRequest;
+import com.poly.EasyLearning.dto.request.LessonRequest;
 import com.poly.EasyLearning.dto.request.UpdateAccountRequest;
 import com.poly.EasyLearning.dto.request.UserRequest;
 import com.poly.EasyLearning.dto.response.AuthResponse;
@@ -12,6 +13,8 @@ import com.poly.EasyLearning.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -70,6 +73,19 @@ public class AccountApi {
         );
     }
 
+//    @PostMapping("/login")
+//    public ResponseEntity<?> doLogin(@RequestBody UserRequest userRequest){
+//        AccountApp account = accountService.login(userRequest);
+//        return ResponseEntity.status(200).body(
+//                new ResponseObject(
+//                        "Login success",
+//                        200,
+//                        account
+//                )
+//        );
+//    }
+
+
     @DeleteMapping({"/delete-account"})
     public ResponseEntity<?> deleteAccount(@RequestParam(name = "username") String username) {
         accountService.deleteByUsername(username);
@@ -82,11 +98,11 @@ public class AccountApi {
         );
     }
 
-    @PutMapping("/update-account")
+    @PostMapping("/update-account")
     public ResponseEntity<?> updateAccount(@RequestBody UpdateAccountRequest accountUpdate
                                            ){
         AccountApp accountUpdated = accountService
-                .updateAccount(accountUpdate.getOldUsername(), accountUpdate.getUserUpdate());
+                .updateAccount(accountUpdate);
         return ResponseEntity.status(200).body(
                 new ResponseObject(
                         "Account has been updated successfully",
@@ -127,5 +143,21 @@ public class AccountApi {
                         accountService.findByUsername(username).isPresent()
                 )
         );
+    }
+
+    @GetMapping("/get-account-by-token")
+    public ResponseEntity<ResponseObject> getAccountByToken(
+            @AuthenticationPrincipal AccountApp accountApp){
+        if(accountApp != null){
+            return ResponseEntity.status(201).body(
+                    new ResponseObject(
+                            "Get account by token.",
+                            200,
+                            accountApp
+                    )
+            );
+        }else{
+            throw new BadCredentialsException("Bad credentials!");
+        }
     }
 }

@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class ResultItemServiceImpl implements ResultItemService {
@@ -17,13 +19,17 @@ public class ResultItemServiceImpl implements ResultItemService {
     private final ResultItemRepository resultItemRepository;
     private final QuizItemService quizItemService;
 
-
     @Override
     public ResultItem create(ResultItemRequest resultItemRequest) {
         ResultItem resultItem = new ResultItem();
         BeanUtils.copyProperties(resultItemRequest,resultItem);
-        resultItem.setQuizItem(quizItemService.findById(resultItemRequest.getQuestionItemId()));
+        resultItem.setQuizItem(quizItemService.findById(resultItemRequest.getQuizItemId()));
         resultItem.setResult(resultService.findById(resultItemRequest.getResultId()));
-        return null;
+        return resultItemRepository.save(resultItem);
+    }
+
+    @Override
+    public List<ResultItem> getAll() {
+        return resultItemRepository.findAll();
     }
 }

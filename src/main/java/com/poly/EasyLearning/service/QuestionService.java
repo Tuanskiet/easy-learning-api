@@ -12,4 +12,10 @@ public interface QuestionService {
     Question findById(Integer id);
 
     Question save(Question question);
+
+    Question createQuestion(Question question);
+
+    void delete(Integer id);
+    Question updateQuestion(Question question);
+
 }

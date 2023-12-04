@@ -12,13 +12,16 @@ public interface LessonService {
 
     Lesson create(LessonRequest lessonRequest, AccountApp accountApp);
 
+    void delete(Integer id);
+
     List<Lesson> searchByKeyword(String keyword);
 
     Lesson findById(Integer lessonId);
 
     void deleteById(Integer lessonId);
 
-    Lesson updateLesson(Lesson lessonUpdate);
-
     Lesson uploadImage(Integer lessonId, MultipartFile imageFile);
+
+    Lesson updateLesson(Lesson lesson);
+
 }

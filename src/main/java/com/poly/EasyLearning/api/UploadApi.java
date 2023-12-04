@@ -2,8 +2,9 @@ package com.poly.EasyLearning.api;
 
 
 
-import com.poly.EasyLearning.dto.response.ResponseObject;
 import com.poly.EasyLearning.entity.ImageResponse;
+import com.poly.EasyLearning.dto.response.ResponseObject;
+
 import com.poly.EasyLearning.service.ImageStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +23,23 @@ public class UploadApi {
     // publicId sẽ được sử dụng để thao tác với Cloudinary (xóa)
     @PostMapping("/file/upload")
     public ResponseEntity<ResponseObject> uploadFile(@RequestParam("image")MultipartFile file) throws IOException {
-        ImageResponse imageResponse = storageService.upload( file,"/upload", "1");
+        ImageResponse imageResponse = storageService.upload( file,"/lesson", System.currentTimeMillis() + "");
         return ResponseEntity.status(201).body(new ResponseObject(
                 "Upload image successfully!",
                 201,
                 imageResponse
         ));
     }
+
+    @PutMapping("/file/update")
+    public ResponseEntity<ResponseObject> uploadFile(@RequestParam("image")MultipartFile file, String folder, String fileName) throws IOException {
+        ImageResponse imageResponse = storageService.upload( file,folder, fileName);
+        return ResponseEntity.status(201).body(new ResponseObject(
+                "Upload image successfully!",
+                201,
+                imageResponse
+        ));
+    }   
 
     @DeleteMapping("/file/delete")
     public ResponseEntity<?> deleteFile(@RequestParam("publicId") String publicId) throws IOException {
