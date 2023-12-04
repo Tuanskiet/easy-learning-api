@@ -11,4 +11,6 @@ public interface ResultService {
     Result create(ResultRequest resultRequest);
 
     Result findById(Integer id);
+
+    Result findByRoomId(Integer roomId);
 }

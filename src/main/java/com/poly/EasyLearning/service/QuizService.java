@@ -11,8 +11,6 @@ public interface QuizService {
 
     Quiz create(QuizRequest quizRequest, AccountApp accountApp);
 
-    Quiz create(QuizRequest quizRequest);
-
     List<Quiz> searchByKeyword(String keyword);
 
     Quiz findById(Integer id);
