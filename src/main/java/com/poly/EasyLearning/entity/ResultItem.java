@@ -20,6 +20,7 @@ public class ResultItem implements Serializable {
 
     private String userAns;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "result_id", referencedColumnName = "id")
     private Result result;

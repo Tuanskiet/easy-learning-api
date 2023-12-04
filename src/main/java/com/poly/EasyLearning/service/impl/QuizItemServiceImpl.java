@@ -20,4 +20,9 @@ public class QuizItemServiceImpl implements QuizItemService {
     public QuizItem findById(Integer id) {
         return quizItemRepository.findById(id).orElse(null);
     }
+
+//    @Override
+//    public QuizItem findByQuestion_Id(Integer id) {
+//        return quizItemRepository.findByQuestion_Id(id).get(0);
+//    }
 }

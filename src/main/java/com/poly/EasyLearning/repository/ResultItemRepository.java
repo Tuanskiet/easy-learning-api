@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface ResultItemRepository extends JpaRepository<ResultItem, Integer> {
     List<ResultItem> findByResult_Id(Integer id);
+
+
 }

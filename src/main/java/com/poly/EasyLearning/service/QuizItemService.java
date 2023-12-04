@@ -7,4 +7,6 @@ public interface QuizItemService{
     QuizItem create(QuizItem quizItem);
 
     QuizItem findById(Integer id);
+//
+//    QuizItem findByQuestion_Id(Integer id);
 }
