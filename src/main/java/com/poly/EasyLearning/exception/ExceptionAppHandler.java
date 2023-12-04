@@ -1,7 +1,6 @@
 package com.poly.EasyLearning.exception;
 
 import com.poly.EasyLearning.dto.response.ResponseObject;
-import com.poly.EasyLearning.exception.AccountException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
