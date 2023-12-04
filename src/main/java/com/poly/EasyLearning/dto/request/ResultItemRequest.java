@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ResultItemRequest {
     private String userAns;
-    private Integer questionItemId;
+    private Integer quizItemId;
     private Integer resultId;
 }
