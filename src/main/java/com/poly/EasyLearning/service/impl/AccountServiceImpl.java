@@ -191,6 +191,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("Load account .....");
         return  accountRepository.findByUsername(username)
                 .orElseThrow(() ->  new UsernameNotFoundException(MessageUtils.Account.NOT_FOUND.getValue()));
     }

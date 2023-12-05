@@ -6,7 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -22,27 +24,6 @@ public class EasyLearningApplication {
 	}
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		return encoder;
+		return new BCryptPasswordEncoder();
 	}
-}
-
-@Controller
-class test{
-
-	@GetMapping("/login")
-	public String login(){
-
-		return "login";
-	}
-
-	@GetMapping("/result")
-	public String result(@AuthenticationPrincipal MyOAuth2User oAuth2User, Model model){
-
-		if(oAuth2User != null){
-			model.addAttribute("user", oAuth2User.getName());
-		}
-		return "result 4:40 12/2/2023";
-	}
-
 }
