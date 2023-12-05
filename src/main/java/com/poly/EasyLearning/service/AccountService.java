@@ -17,6 +17,9 @@ public interface AccountService extends UserDetailsService{
     AuthResponse register(UserRequest user);
     Optional<AccountApp> findByUsername(String username);
 
+    Optional<AccountApp> findById(Integer id);
+
+    AccountApp save(AccountApp account);
     void deleteByUsername(String username);
 
     AccountApp updateAccount( UpdateAccountRequest accountUpdate);

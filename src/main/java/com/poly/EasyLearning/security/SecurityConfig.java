@@ -72,7 +72,10 @@ public class SecurityConfig{
                                                 "/api/v1/check-account-exists",
                                                 "/api/v1/lesson/all",
                                                 "/api/v1/authenticate",
-                                                "/api/v1/quiz/get/**"
+                                                "/api/v1/quiz/get/**",
+                                                "/api/v1/pay",
+                                                "/api/v1/payment-callback",
+                                                "/api/v1/payment-callback/**"
                                         ).permitAll()
                                         .requestMatchers("/api/v1/admin/**").hasAuthority("admin")
                                         .anyRequest().authenticated())
