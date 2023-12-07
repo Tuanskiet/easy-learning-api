@@ -37,4 +37,9 @@ public class UserInfoServiceImpl implements UserInfoService {
     public UserInfo findById(Integer id) {
         return userInfoRepo.findById(id).orElse(null);
     }
+
+    @Override
+    public UserInfo findByUsername(AccountApp username) {
+        return this.userInfoRepo.findByAccount(username);
+    }
 }

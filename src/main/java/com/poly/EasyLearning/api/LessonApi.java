@@ -133,5 +133,17 @@ public class LessonApi {
         }
     }
 
+    @GetMapping(value = {"/creator/{id}"})
+    public ResponseEntity<ResponseObject> findUserInforByIdLesson(@PathVariable(required = true) Integer id){
+        System.out.println("Hello");
+        return ResponseEntity.status(200).body(
+                new ResponseObject(
+                        "Found user",
+                        200,
+                        lessonService.findByIdLesson(id)
+                )
+        );
+    }
+
 }
 

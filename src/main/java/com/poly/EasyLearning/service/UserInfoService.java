@@ -12,4 +12,6 @@ public interface UserInfoService {
     UserInfo findByAccount(AccountApp accountApp);
     UserInfo save(UserInfo userInfo);
     UserInfo findById(Integer id);
+
+    UserInfo findByUsername(AccountApp username);
 }

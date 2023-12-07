@@ -54,6 +54,15 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
+    public UserInfo findByIdQuiz(Integer id) {
+        Optional<Quiz> quizOp = quizRepository.findById(id);
+        if(quizOp.isPresent()){
+            return quizOp.get().getUserInfo();
+        }
+        return null;
+    }
+
+    @Override
     public Quiz findById(Integer id) {
         Optional<Quiz> checkQuiz = quizRepository.findById(id);
         if(checkQuiz.isEmpty()){

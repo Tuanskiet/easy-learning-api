@@ -40,6 +40,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
             AccountApp accountApp = (AccountApp) userDetailsService.loadUserByUsername(username);
+            if(accountApp == null){
+                System.out.println("Princal null");
+            } else {
+
+                System.out.println("Princal abc");
+            }
+
             if(jwtService.isTokenValid(token, accountApp)){
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         accountApp,
@@ -51,7 +58,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 );
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
-            filterChain.doFilter(request, response);
+            // Kiểm tra trước khi gửi phản hồi lỗi
+            if (!response.isCommitted()) {
+                filterChain.doFilter(request, response);
+            }
         }
 
     }

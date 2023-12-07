@@ -102,6 +102,15 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
+    public UserInfo findByIdLesson(Integer id) {
+        Optional<Lesson> lessonOp = lessonRepo.findById(id);
+        if(lessonOp.isPresent()){
+            return lessonOp.get().getUserInfo();
+        }
+        return null;
+    }
+
+    @Override
     public Lesson uploadImage(Integer lessonId, MultipartFile imageFile) {
         Optional<Lesson> checkLesson = lessonRepo.findById(lessonId);
         if (checkLesson.isEmpty()){
