@@ -24,7 +24,7 @@ public class AccountApp implements Serializable, UserDetails {
     private Integer id;
     private String  username;
 
-//    @JsonIgnore
+    @JsonIgnore
     private String  password;
 
     @Enumerated(EnumType.STRING)
@@ -51,7 +51,7 @@ public class AccountApp implements Serializable, UserDetails {
         this.provider = provider;
     }
 
-    @JsonIgnore
+//    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorityList = new ArrayList<>();
@@ -60,7 +60,6 @@ public class AccountApp implements Serializable, UserDetails {
         }
         return authorityList;
     }
-
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -80,4 +79,6 @@ public class AccountApp implements Serializable, UserDetails {
     public boolean isEnabled() {
         return enable;
     }
+
+
 }

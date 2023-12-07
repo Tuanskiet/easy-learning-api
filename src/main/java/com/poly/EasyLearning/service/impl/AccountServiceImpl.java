@@ -33,7 +33,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Transactional
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final RoleService roleService;
@@ -42,9 +41,12 @@ public class AccountServiceImpl implements AccountService {
     private final UserInfoService userInfoService;
     private final ImageStorageService imageStorageService;
     private final JwtService jwtService;
-    private final QuizService quizService;
 
-
+    /**
+     * Find user in DB by username.
+     * @param username is the account information will find.
+     * @return Optional<AccountApp> if find successfully (have data in DB).
+     */
     public Optional<AccountApp> findByUsername(String username){
         return accountRepository.findByUsername(username);
     }
@@ -88,13 +90,11 @@ public class AccountServiceImpl implements AccountService {
         if(userUpdate.getUsername() != null){
             oldAccount.setUsername(userUpdate.getUsername());
         }
-        oldAccount.setUserApp(
-                UserInfo.builder()
-                        .fullName(userUpdate.getFullName())
-                        .email(userUpdate.getEmail())
-                        .fullName(userUpdate.getAvatar())
-                        .build()
-        );
+        UserInfo userInfo = oldAccount.getUserApp();
+        userInfo.setFullName(userUpdate.getFullName());
+        userInfo.setEmail(userUpdate.getEmail());
+        oldAccount.setUserApp(userInfo);
+
         if(accountUpdate.getRoles() != null){
             Set<RoleApp> roles = new HashSet<>();
             accountUpdate.getRoles().forEach(role -> {
@@ -114,38 +114,6 @@ public class AccountServiceImpl implements AccountService {
         return accountUpdated;
     }
 
-    @Override
-    public AccountApp updateAvatar(String username, MultipartFile avatarFile) {
-        Optional<AccountApp> checkAccount = accountRepository.findByUsername(username);
-        if (checkAccount.isEmpty()){
-            throw new AccountException(MessageUtils.Account.NOT_FOUND.getValue());
-        }
-        ImageResponse imgResponse = storageService
-                .upload(avatarFile, UploadFolder.ACCOUNT, String.valueOf(checkAccount.get().getId()));
-        UserInfo userInfo = userInfoService.findByAccount(checkAccount.get());
-        userInfo.setAvatar(imgResponse);
-        userInfoService.save(userInfo);
-        return checkAccount.get();
-    }
-
-//    @Override
-//    public AccountApp login(UserRequest user) {
-//        Optional<AccountApp> account = accountRepository.findByUsername(user.getUsername());
-//        if(account.isPresent()){
-//            if(account.get().getUsername().equals(user.getUsername()) && account.get().getPassword().equals(user.getPassword())){
-//                log.info(account.get().getUsername() + " " + account.get().getPassword());
-//                log.info("Login success with username : {}", user.getUsername());
-//                return account.get();
-//            }
-//            log.warn(MessageUtils.Account.WRONG_PASSWORD.getValue() + "|| username : " + user.getUsername());
-//            //throw new AuthenticationFailException(MessageUtils.Account.WRONG_PASSWORD.getValue());
-//        }
-//        else {
-//            log.warn(MessageUtils.Account.WRONG_USERNAME.getValue() + "|| username : " + user.getUsername());
-//            //throw new AuthenticationFailException(MessageUtils.Account.WRONG_USERNAME.getValue());
-//        }
-//        return account.get();
-//    }
 
     /**
      * Create new Account and UserInfo for this Account.
@@ -153,6 +121,7 @@ public class AccountServiceImpl implements AccountService {
      * @return new AuthResponse (containing jwt token) - if no error.
      * @throws AccountException – if Account already exist.
      */
+    @Transactional
     @Override
     public AuthResponse register(UserRequest userRequest) {
         Optional<AccountApp> accountCheck = accountRepository.findByUsername(userRequest.getUsername());
@@ -160,11 +129,10 @@ public class AccountServiceImpl implements AccountService {
             log.warn(MessageUtils.Account.ALREADY_EXIST.getValue() + "|| username : " + userRequest.getUsername());
             throw new AccountException(MessageUtils.Account.ALREADY_EXIST.getValue());
         }
-        AccountApp newAccount = new AccountApp(
-                userRequest.getUsername(),
-                passwordEncoder.encode(userRequest.getPassword()),
-                userRequest.getProvider()
-        );
+        AccountApp newAccount = new AccountApp();
+        newAccount.setUsername(userRequest.getUsername());
+        newAccount.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        newAccount.setProvider(userRequest.getProvider());
         /* Check if the role exists in the database, add a new ROLE_USER if it doesn't exist.*/
         Set<RoleApp> roles = new HashSet<>();
         RoleApp roleApp = roleService.findRole(userRequest.getRole())
@@ -188,12 +156,17 @@ public class AccountServiceImpl implements AccountService {
         String token = jwtService.generateToken(newAccount);
         return new AuthResponse(token);
     }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("Load account .....");
-        return  accountRepository.findByUsername(username)
-                .orElseThrow(() ->  new UsernameNotFoundException(MessageUtils.Account.NOT_FOUND.getValue()));
+    public AccountApp updateAvatar(String username, MultipartFile avatarFile) {
+        Optional<AccountApp> checkAccount = accountRepository.findByUsername(username);
+        if (checkAccount.isEmpty()){
+            throw new AccountException(MessageUtils.Account.NOT_FOUND.getValue());
+        }
+        ImageResponse imgResponse = storageService
+                .upload(avatarFile, UploadFolder.ACCOUNT, String.valueOf(checkAccount.get().getId()));
+        UserInfo userInfo = userInfoService.findByAccount(checkAccount.get());
+        userInfo.setAvatar(imgResponse);
+        userInfoService.save(userInfo);
+        return checkAccount.get();
     }
 
     @Override
@@ -228,5 +201,14 @@ public class AccountServiceImpl implements AccountService {
                 account.isEnabled(),
                 account.isLocked()
         );
+    }
+    @Override
+    public Optional<AccountApp> findById(Integer accountId) {
+        return accountRepository.findById(accountId);
+    }
+
+    @Override
+    public AccountApp save(AccountApp user) {
+        return accountRepository.save(user);
     }
 }
