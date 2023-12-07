@@ -3,6 +3,8 @@ package com.poly.EasyLearning.service;
 import com.poly.EasyLearning.dto.request.LessonRequest;
 import com.poly.EasyLearning.entity.AccountApp;
 import com.poly.EasyLearning.entity.Lesson;
+import com.poly.EasyLearning.entity.UserInfo;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,4 +32,5 @@ public interface LessonService {
 
     Lesson updateLesson(Lesson lesson);
 
+    UserInfo findByIdLesson(Integer id);
 }

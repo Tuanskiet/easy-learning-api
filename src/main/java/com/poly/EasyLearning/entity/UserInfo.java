@@ -18,6 +18,9 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "[user_info]")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class UserInfo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
