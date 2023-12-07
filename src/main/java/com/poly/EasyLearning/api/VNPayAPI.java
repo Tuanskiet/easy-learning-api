@@ -17,22 +17,16 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TimeZone;
 
-import com.poly.EasyLearning.VNPay.Config;
+import com.poly.EasyLearning.config.VNPay.Config;
 import com.poly.EasyLearning.entity.AccountApp;
 import com.poly.EasyLearning.entity.Payment;
 import com.poly.EasyLearning.entity.RoleApp;
-import com.poly.EasyLearning.entity.UserInfo;
 import com.poly.EasyLearning.enums.RoleName;
-import com.poly.EasyLearning.service.UserInfoService;
 import com.poly.EasyLearning.service.AccountService;
 import com.poly.EasyLearning.service.PaymentService;
 import com.poly.EasyLearning.service.RoleService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,7 +35,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.websocket.server.PathParam;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -53,6 +46,8 @@ public class VNPayAPI {
     private PaymentService paymentService;
     @Autowired
     private AccountService accountAppSrv;
+
+
     @GetMapping("payment-callback")
     public String paymentCallback(@RequestParam("account_id") Integer account_id,
             @RequestParam("vnp_PayDate") String vnp_PayDate, @RequestParam("vnp_TransactionNo") String vnp_TransactionNo,
@@ -68,8 +63,9 @@ public class VNPayAPI {
                 if (accountApp.isPresent()) {
                     AccountApp user = accountApp.get();
                     Set<RoleApp> roles = user.getRoles();
-                    Optional<RoleApp> roleApps = roleService.findRole(RoleName.ROLE_PREMIUM);
-                    roles.add(roleApps.get());
+                    Optional<RoleApp> roleApp = roleService.findRole(RoleName.ROLE_PREMIUM);
+                    System.out.println(roleApp.get().getName());
+                    roles.add(roleApp.get());
                     user.setRoles(roles);
                     accountAppSrv.save(user);
                 }

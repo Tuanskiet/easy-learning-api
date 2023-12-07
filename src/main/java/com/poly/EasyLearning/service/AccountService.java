@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Optional;
 
 
-public interface AccountService extends UserDetailsService{
+public interface AccountService{
     AuthResponse register(UserRequest user);
     Optional<AccountApp> findByUsername(String username);
 
