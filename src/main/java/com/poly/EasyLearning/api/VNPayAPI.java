@@ -14,13 +14,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.TimeZone;
 
 import com.poly.EasyLearning.VNPay.Config;
+import com.poly.EasyLearning.entity.AccountApp;
 import com.poly.EasyLearning.entity.Payment;
+import com.poly.EasyLearning.entity.RoleApp;
 import com.poly.EasyLearning.entity.UserInfo;
+import com.poly.EasyLearning.enums.RoleName;
 import com.poly.EasyLearning.service.UserInfoService;
+import com.poly.EasyLearning.service.AccountService;
 import com.poly.EasyLearning.service.PaymentService;
+import com.poly.EasyLearning.service.RoleService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
@@ -42,10 +48,11 @@ import jakarta.websocket.server.PathParam;
 @RequestMapping("api/v1")
 public class VNPayAPI {
     @Autowired
-    private UserInfoService userInfoService;
+    private RoleService roleService;
     @Autowired
     private PaymentService paymentService;
-
+    @Autowired
+    private AccountService accountAppSrv;
     @GetMapping("payment-callback")
     public String paymentCallback(@RequestParam("account_id") Integer account_id,
             @RequestParam("vnp_PayDate") String vnp_PayDate, @RequestParam("vnp_TransactionNo") String vnp_TransactionNo,
@@ -56,9 +63,16 @@ public class VNPayAPI {
         if (account_id != null && !account_id.equals("")) {
             System.out.println("Account id: " + account_id);
             if ("00".equals(vnp_ResponseCode)) {
-                UserInfo userInfo = userInfoService.findById(account_id);
-                userInfo.setSubscription("PREMIUM");
-                userInfoService.insert(userInfo);
+                //    set role tại đây
+                Optional<AccountApp> accountApp = accountAppSrv.findById(account_id);
+                if (accountApp.isPresent()) {
+                    AccountApp user = accountApp.get();
+                    Set<RoleApp> roles = user.getRoles();
+                    Optional<RoleApp> roleApps = roleService.findRole(RoleName.ROLE_PREMIUM);
+                    roles.add(roleApps.get());
+                    user.setRoles(roles);
+                    accountAppSrv.save(user);
+                }
                 // add vào payment
                 Payment payment = new Payment();
                 payment.setTransactionNo(vnp_TransactionNo);

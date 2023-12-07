@@ -2,6 +2,7 @@ package com.poly.EasyLearning;
 
 import com.poly.EasyLearning.model.MyOAuth2User;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @SpringBootApplication
+@Slf4j
 public class EasyLearningApplication {
 
 	public static void main(String[] args) {

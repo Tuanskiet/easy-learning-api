@@ -228,4 +228,14 @@ public class AccountServiceImpl implements AccountService {
                 account.isLocked()
         );
     }
+
+    @Override
+    public Optional<AccountApp> findById(Integer id) {
+        return accountRepository.findById(id);
+    }
+    // save account
+    @Override
+    public AccountApp save(AccountApp account) {
+        return accountRepository.save(account);
+    }
 }

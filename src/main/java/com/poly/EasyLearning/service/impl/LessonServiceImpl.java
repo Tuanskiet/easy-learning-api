@@ -5,7 +5,6 @@ import com.poly.EasyLearning.entity.AccountApp;
 import com.poly.EasyLearning.entity.ImageResponse;
 import com.poly.EasyLearning.entity.Lesson;
 import com.poly.EasyLearning.entity.UserInfo;
-import com.poly.EasyLearning.exception.AccountException;
 import com.poly.EasyLearning.exception.LessonException;
 import com.poly.EasyLearning.repository.LessonRepo;
 import com.poly.EasyLearning.service.ImageStorageService;
@@ -17,6 +16,8 @@ import com.poly.EasyLearning.utils.UploadFolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,6 +37,11 @@ public class LessonServiceImpl implements LessonService {
     @Override
     public List<Lesson> getAllActiveTrue() {
         return lessonRepo.findByActiveTrue();
+    }
+
+    @Override
+    public Page<Lesson> findAll(Pageable pageable) {
+        return lessonRepo.findAll(pageable);
     }
 
     @Override
@@ -65,12 +71,19 @@ public class LessonServiceImpl implements LessonService {
     public List<Lesson> searchByKeyword(String keyword) {
         return lessonRepo.findByTitleContainingOrDescriptionContainingAndActiveTrue(keyword, keyword);
     }
+
+    @Override
+    public Page<Lesson> searchByKeyword(String keyword, Pageable pageable) {
+        return lessonRepo.findByTitleContainingOrDescriptionContaining(keyword, keyword, pageable);
+    }
+
     @Override
     public Lesson findById(Integer lessonId) {
         Optional<Lesson> checkLesson = lessonRepo.findById(lessonId);
         if(checkLesson.isEmpty()){
             throw new LessonException(MessageUtils.Lesson.NOT_FOUND.getValue());
-        }return checkLesson.get();
+        }
+        return checkLesson.get();
     }
 
     @Transactional
