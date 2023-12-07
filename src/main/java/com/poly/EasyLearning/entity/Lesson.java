@@ -19,7 +19,9 @@ import java.util.List;
 @Entity
 @ToString
 @Table(name = "lesson")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Lesson implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,13 +41,8 @@ public class Lesson implements Serializable {
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
     private List<Question> questions = new ArrayList<>();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
-    private List<Quiz> quizs = new ArrayList<>();
-
-    @JsonIgnore
     @JsonProperty("userInfo")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="userInfoId", referencedColumnName = "id")
     private UserInfo userInfo;
 
