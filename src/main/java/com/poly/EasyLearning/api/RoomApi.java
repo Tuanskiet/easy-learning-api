@@ -34,6 +34,7 @@ public class RoomApi {
 
     @PostMapping("/room/create")
     public ResponseEntity<ResponseObject> doCreateRoom(@RequestBody RoomRequest roomRequest, @AuthenticationPrincipal AccountApp accountApp){
+        System.out.println(roomRequest.getQuizId());
         return ResponseEntity.status(201).body(
                 new ResponseObject(
                         "Create new room.",

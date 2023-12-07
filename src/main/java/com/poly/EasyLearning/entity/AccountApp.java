@@ -25,6 +25,7 @@ public class AccountApp implements Serializable, UserDetails {
     private String  username;
 
     @JsonIgnore
+    @Column(name="password" ,length = 1024)
     private String  password;
 
     @Enumerated(EnumType.STRING)

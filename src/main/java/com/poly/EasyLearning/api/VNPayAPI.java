@@ -6,7 +6,16 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.TimeZone;
 import com.poly.EasyLearning.config.VNPay.Config;
 import com.poly.EasyLearning.entity.AccountApp;
 import com.poly.EasyLearning.entity.Payment;
@@ -15,7 +24,6 @@ import com.poly.EasyLearning.enums.RoleName;
 import com.poly.EasyLearning.service.AccountService;
 import com.poly.EasyLearning.service.PaymentService;
 import com.poly.EasyLearning.service.RoleService;
-import com.poly.EasyLearning.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,13 +38,11 @@ import jakarta.servlet.http.HttpServletResponse;
 @RequestMapping("api/v1")
 public class VNPayAPI {
     @Autowired
-    private UserInfoService userInfoService;
+    private RoleService roleService;
     @Autowired
     private PaymentService paymentService;
     @Autowired
     private AccountService accountAppSrv;
-    @Autowired
-    private RoleService roleService;
 
 
     @GetMapping("payment-callback")

@@ -21,8 +21,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -156,6 +154,9 @@ public class AccountServiceImpl implements AccountService {
         String token = jwtService.generateToken(newAccount);
         return new AuthResponse(token);
     }
+
+
+    @Override
     public AccountApp updateAvatar(String username, MultipartFile avatarFile) {
         Optional<AccountApp> checkAccount = accountRepository.findByUsername(username);
         if (checkAccount.isEmpty()){
@@ -203,12 +204,12 @@ public class AccountServiceImpl implements AccountService {
         );
     }
     @Override
-    public Optional<AccountApp> findById(Integer accountId) {
-        return accountRepository.findById(accountId);
+    public Optional<AccountApp> findById(Integer id) {
+        return accountRepository.findById(id);
     }
-
+    // save account
     @Override
-    public AccountApp save(AccountApp user) {
-        return accountRepository.save(user);
+    public AccountApp save(AccountApp account) {
+        return accountRepository.save(account);
     }
 }

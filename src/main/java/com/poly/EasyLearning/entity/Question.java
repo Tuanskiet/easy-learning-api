@@ -28,6 +28,7 @@ public class Question implements Serializable {
     private String  answerC;
     private String  correctAnswer;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "lesson_id", referencedColumnName = "id")
     private Lesson lesson;

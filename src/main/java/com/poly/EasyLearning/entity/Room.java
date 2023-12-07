@@ -31,6 +31,7 @@ public class Room implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserInfo userInfo;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "room", cascade = CascadeType.ALL)
     private Result result;
 

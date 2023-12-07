@@ -15,6 +15,9 @@ public interface AccountService{
     AuthResponse register(UserRequest user);
     Optional<AccountApp> findByUsername(String username);
 
+    Optional<AccountApp> findById(Integer id);
+
+    AccountApp save(AccountApp account);
     void deleteByUsername(String username);
 
     AccountApp updateAccount( UpdateAccountRequest accountUpdate);
@@ -23,9 +26,6 @@ public interface AccountService{
 
     Page<AccountResponse> findAllByUsername(String username, Integer page, Integer size);
 
-    Optional<AccountApp> findById(Integer accountId);
-
-    AccountApp save(AccountApp user);
 
 //    AccountApp login(UserRequest user);
 

@@ -40,11 +40,8 @@ public class Quiz implements Serializable {
     private UserInfo userInfo;
 
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "lessonId", referencedColumnName = "id")
-    private Lesson lesson;
-
-    @JsonIgnore
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
     private List<Room> rooms = new ArrayList<>();
 }
+
+

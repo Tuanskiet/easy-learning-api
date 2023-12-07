@@ -29,8 +29,20 @@ public class QuizApi {
         );
     }
 
+    @GetMapping(value = {"/quiz/creator/{id}"})
+    public ResponseEntity<ResponseObject> findUserInforByIdQuiz(@PathVariable(required = true) Integer id){
+        return ResponseEntity.status(200).body(
+                new ResponseObject(
+                        "Found user",
+                        200,
+                        quizService.findByIdQuiz(id)
+                )
+        );
+    }
+
     @PostMapping("/quiz/create")
     public ResponseEntity<ResponseObject> doCreateQuiz(@RequestBody QuizRequest quizRequest, @AuthenticationPrincipal AccountApp accountApp) {
+
         if (accountApp != null) {
             return ResponseEntity.status(201).body(
                     new ResponseObject(
@@ -40,6 +52,7 @@ public class QuizApi {
                     )
             );
         } else {
+            System.out.println("hellloooooooooooo");
             throw new BadCredentialsException("Bad credentials!");
         }
     }
