@@ -14,37 +14,36 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.TimeZone;
-
-import com.poly.EasyLearning.VNPay.Config;
+import com.poly.EasyLearning.config.VNPay.Config;
+import com.poly.EasyLearning.entity.AccountApp;
 import com.poly.EasyLearning.entity.Payment;
-import com.poly.EasyLearning.entity.UserInfo;
-import com.poly.EasyLearning.service.UserInfoService;
+import com.poly.EasyLearning.entity.RoleApp;
+import com.poly.EasyLearning.enums.RoleName;
+import com.poly.EasyLearning.service.AccountService;
 import com.poly.EasyLearning.service.PaymentService;
-
+import com.poly.EasyLearning.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.websocket.server.PathParam;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("api/v1")
 public class VNPayAPI {
     @Autowired
-    private UserInfoService userInfoService;
+    private RoleService roleService;
     @Autowired
     private PaymentService paymentService;
+    @Autowired
+    private AccountService accountAppSrv;
+
 
     @GetMapping("payment-callback")
     public String paymentCallback(@RequestParam("account_id") Integer account_id,
@@ -56,9 +55,17 @@ public class VNPayAPI {
         if (account_id != null && !account_id.equals("")) {
             System.out.println("Account id: " + account_id);
             if ("00".equals(vnp_ResponseCode)) {
-                UserInfo userInfo = userInfoService.findById(account_id);
-                userInfo.setSubscription("PREMIUM");
-                userInfoService.insert(userInfo);
+                //    set role tại đây
+                Optional<AccountApp> accountApp = accountAppSrv.findById(account_id);
+                if (accountApp.isPresent()) {
+                    AccountApp user = accountApp.get();
+                    Set<RoleApp> roles = user.getRoles();
+                    Optional<RoleApp> roleApp = roleService.findRole(RoleName.ROLE_PREMIUM);
+                    System.out.println(roleApp.get().getName());
+                    roles.add(roleApp.get());
+                    user.setRoles(roles);
+                    accountAppSrv.save(user);
+                }
                 // add vào payment
                 Payment payment = new Payment();
                 payment.setTransactionNo(vnp_TransactionNo);

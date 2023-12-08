@@ -2,7 +2,6 @@ package com.poly.EasyLearning.api;
 
 
 import com.poly.EasyLearning.dto.request.AuthRequest;
-import com.poly.EasyLearning.dto.request.LessonRequest;
 import com.poly.EasyLearning.dto.request.UpdateAccountRequest;
 import com.poly.EasyLearning.dto.request.UserRequest;
 import com.poly.EasyLearning.dto.response.AuthResponse;
@@ -42,14 +41,8 @@ public class AccountApi {
 
     @PostMapping("/authenticate")
     public ResponseEntity<ResponseObject> authenticate(@RequestBody AuthRequest authRequest){
-        AuthResponse authResponse = authService.authenticate(authRequest);
-        return ResponseEntity.status(200).body(
-                new ResponseObject(
-                        "Authentication!",
-                        200,
-                        authResponse
-                )
-        );
+        ResponseObject authResponse = authService.authenticate(authRequest);
+        return ResponseEntity.status(200).body(authResponse);
     }
 
     @GetMapping({"/get-account", "/admin/m-account/get-account"})

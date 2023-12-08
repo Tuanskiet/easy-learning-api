@@ -35,6 +35,7 @@ public class RoomServiceImpl implements RoomService {
     public Room create(RoomRequest roomRequest) {
         Room room = new Room();
         room.setQuiz(quizService.findById(roomRequest.getQuizId()));
+
         return roomRepository.save(room);
     }
 
@@ -42,6 +43,7 @@ public class RoomServiceImpl implements RoomService {
     public Room create(RoomRequest roomRequest, AccountApp accountApp) {
         Room room = new Room();
         room.setQuiz(quizService.findById(roomRequest.getQuizId()));
+        System.out.println("hello" + room.getQuiz());
         room.setUserInfo(accountApp.getUserApp());
         return roomRepository.save(room);
     }
