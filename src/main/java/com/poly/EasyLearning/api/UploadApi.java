@@ -23,7 +23,9 @@ public class UploadApi {
     // publicId sẽ được sử dụng để thao tác với Cloudinary (xóa)
     @PostMapping("/file/upload")
     public ResponseEntity<ResponseObject> uploadFile(@RequestParam("image")MultipartFile file) throws IOException {
+
         ImageResponse imageResponse = storageService.upload( file,"/lesson", System.currentTimeMillis() + "");
+
         return ResponseEntity.status(201).body(new ResponseObject(
                 "Upload image successfully!",
                 201,
@@ -33,6 +35,7 @@ public class UploadApi {
 
     @PutMapping("/file/update")
     public ResponseEntity<ResponseObject> uploadFile(@RequestParam("image")MultipartFile file, String folder, String fileName) throws IOException {
+        System.out.println("Upload image ....");
         ImageResponse imageResponse = storageService.upload( file,folder, fileName);
         return ResponseEntity.status(201).body(new ResponseObject(
                 "Upload image successfully!",

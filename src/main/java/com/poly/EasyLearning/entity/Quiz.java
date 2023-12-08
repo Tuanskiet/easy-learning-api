@@ -38,4 +38,10 @@ public class Quiz implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserInfo userInfo;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    private List<Room> rooms = new ArrayList<>();
 }
+
+
