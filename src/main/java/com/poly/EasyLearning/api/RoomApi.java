@@ -1,10 +1,9 @@
 package com.poly.EasyLearning.api;
 
-import com.poly.EasyLearning.dto.request.QuizRequest;
 import com.poly.EasyLearning.dto.request.RoomRequest;
 import com.poly.EasyLearning.dto.response.ResponseObject;
 import com.poly.EasyLearning.entity.AccountApp;
-import com.poly.EasyLearning.service.QuizService;
+import com.poly.EasyLearning.entity.Room;
 import com.poly.EasyLearning.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,6 +50,20 @@ public class RoomApi {
                         "Found room",
                         200,
                         roomService.findById(id)
+                )
+        );
+    }
+
+    @PostMapping("/room/update")
+    public ResponseEntity<?> updateLesson(@RequestBody Room roomUpdate
+    ){
+        Room roomUpdated = roomService.update(roomUpdate);
+        System.out.println(roomUpdate.toString());
+        return ResponseEntity.status(200).body(
+                new ResponseObject(
+                        "Room has been updated successfully.",
+                        200,
+                        roomUpdated
                 )
         );
     }

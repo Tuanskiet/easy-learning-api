@@ -3,14 +3,12 @@ package com.poly.EasyLearning.service.impl;
 import com.poly.EasyLearning.dto.request.RoomRequest;
 import com.poly.EasyLearning.entity.AccountApp;
 import com.poly.EasyLearning.entity.Room;
-import com.poly.EasyLearning.entity.UserInfo;
 import com.poly.EasyLearning.exception.RoomException;
 import com.poly.EasyLearning.repository.RoomRepository;
 import com.poly.EasyLearning.service.QuizService;
 import com.poly.EasyLearning.service.RoomService;
 import com.poly.EasyLearning.utils.MessageUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -46,5 +44,15 @@ public class RoomServiceImpl implements RoomService {
         System.out.println("hello" + room.getQuiz());
         room.setUserInfo(accountApp.getUserApp());
         return roomRepository.save(room);
+    }
+
+    @Override
+    public Room update(Room room) {
+        Room currentRoom = roomRepository.findById(room.getId()).get();
+        if(currentRoom != null){
+            currentRoom.setActive(room.getActive());
+        }
+        System.out.println(currentRoom.toString());
+        return roomRepository.save(currentRoom);
     }
 }
