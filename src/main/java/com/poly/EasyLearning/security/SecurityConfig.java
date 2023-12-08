@@ -71,6 +71,7 @@ public class SecurityConfig{
                                                 "/oauth2/**",
                                                 "/api/v1/check-account-exists",
                                                 "/api/v1/lesson/all",
+                                                "/api/v1/my-lesson/all",
                                                 "/api/v1/authenticate",
                                                 "/api/v1/quiz/get/**",
                                                 "/api/v1/pay",

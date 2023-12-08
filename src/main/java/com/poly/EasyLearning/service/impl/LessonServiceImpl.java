@@ -39,6 +39,11 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
+    public List<Lesson> getAllActiveTrueByUser(Integer Id) {
+        return lessonRepo.findByUserInfoIdAndActiveTrue(Id);
+    }
+
+    @Override
     public Page<Lesson> findAll(Pageable pageable) {
         return lessonRepo.findAll(pageable);
     }
