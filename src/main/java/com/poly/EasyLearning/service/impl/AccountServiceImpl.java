@@ -92,7 +92,6 @@ public class AccountServiceImpl implements AccountService {
                 UserInfo.builder()
                         .fullName(userUpdate.getFullName())
                         .email(userUpdate.getEmail())
-                        .fullName(userUpdate.getAvatar())
                         .build()
         );
         if(accountUpdate.getRoles() != null){
