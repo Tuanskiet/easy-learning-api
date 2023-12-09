@@ -28,14 +28,7 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
-@Order(value = Ordered.HIGHEST_PRECEDENCE)
 public class SecurityConfig{
-
-    @Autowired
-    private UserDetailsService userDetailService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private OAuth2UserService oauthUserService;
@@ -97,18 +90,6 @@ public class SecurityConfig{
 //                .httpBasic(Customizer.withDefaults())
         ;
         return http.build();
-    }
-    @Bean
-    public AuthenticationManager authenticationManager(){
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailService);
-        authProvider.setPasswordEncoder(passwordEncoder);
-        return new ProviderManager(authProvider);
-    }
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailService)
-                .passwordEncoder(passwordEncoder);
     }
 
 }
