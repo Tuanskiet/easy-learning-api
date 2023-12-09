@@ -25,7 +25,6 @@ public class Room implements Serializable {
     @JoinColumn(name = "quiz_id", referencedColumnName = "id")
     private Quiz quiz;
 
-    @JsonIgnore
     @JsonProperty("account")
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
