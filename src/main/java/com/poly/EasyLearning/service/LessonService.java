@@ -14,6 +14,8 @@ import java.util.List;
 public interface LessonService {
     List<Lesson> getAllActiveTrue();
 
+    List<Lesson> getAllActiveTrueByUser(Integer Id);
+
     Page<Lesson> findAll(Pageable pageable);
 
     Lesson create(LessonRequest lessonRequest, AccountApp accountApp);
