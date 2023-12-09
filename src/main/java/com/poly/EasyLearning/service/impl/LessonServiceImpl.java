@@ -4,6 +4,7 @@ import com.poly.EasyLearning.dto.request.LessonRequest;
 import com.poly.EasyLearning.entity.AccountApp;
 import com.poly.EasyLearning.entity.ImageResponse;
 import com.poly.EasyLearning.entity.Lesson;
+import com.poly.EasyLearning.entity.UserInfo;
 import com.poly.EasyLearning.exception.LessonException;
 import com.poly.EasyLearning.repository.LessonRepo;
 import com.poly.EasyLearning.service.ImageStorageService;
@@ -116,6 +117,15 @@ public class LessonServiceImpl implements LessonService {
         }
         System.out.println(currentLesson.toString());
         return lessonRepo.save(currentLesson);
+    }
+
+    @Override
+    public UserInfo findByIdLesson(Integer id) {
+        Optional<Lesson> lessonOp = lessonRepo.findById(id);
+        if(lessonOp.isPresent()){
+            return lessonOp.get().getUserInfo();
+        }
+        return null;
     }
 
     @Override

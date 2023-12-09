@@ -3,6 +3,7 @@ package com.poly.EasyLearning.service;
 import com.poly.EasyLearning.dto.request.QuizRequest;
 import com.poly.EasyLearning.entity.AccountApp;
 import com.poly.EasyLearning.entity.Quiz;
+import com.poly.EasyLearning.entity.UserInfo;
 
 import java.util.List;
 
@@ -15,5 +16,7 @@ public interface QuizService {
 
     Quiz findById(Integer id);
     void delete(Integer id);
+
+    UserInfo findByIdQuiz(Integer id);
 
 }

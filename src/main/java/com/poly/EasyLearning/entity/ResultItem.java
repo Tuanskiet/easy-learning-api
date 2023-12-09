@@ -29,4 +29,5 @@ public class ResultItem implements Serializable {
     @JoinColumn(name = "quiz_item_id", referencedColumnName = "id")
     private QuizItem quizItem;
 
+
 }

@@ -1,4 +1,4 @@
-package com.poly.EasyLearning.VNPay;
+package com.poly.EasyLearning.config.VNPay;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
